@@ -10,7 +10,8 @@ class AccommodationsController < ApplicationController
   end
 
   def index
-    @accommodations = Accommodation.page(params[:page]).per(10)
+    @q = Accommodation.ransack(params[:q])
+    @accommodations = @q.result(:distinct => true).includes(:user, :photos, :favorites).page(params[:page]).per(10)
     @location_hash = Gmaps4rails.build_markers(@accommodations.where.not(:address_latitude => nil)) do |accommodation, marker|
       marker.lat accommodation.address_latitude
       marker.lng accommodation.address_longitude
