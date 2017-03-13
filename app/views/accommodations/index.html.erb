@@ -1,0 +1,36 @@
+<div class="page-header">
+  <h1>
+    Accommodations
+    <a href="/accommodations/new" class="btn btn-lg btn-success">New Accommodation</a>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Image</th>
+        <th>Cost per night</th>
+        <th>User</th>
+        <th>Actions</th>
+      </tr>
+
+      <% @accommodations.each do |accommodation| %>
+      <tr>
+        <td><%= accommodation.name %></td>
+        <td><%= accommodation.address %></td>
+        <td><%= accommodation.image %></td>
+        <td><%= accommodation.cost_per_night %></td>
+        <td><%= accommodation.user_id %></td>
+        <td>
+          <a href="/accommodations/<%= accommodation.id %>" class="btn btn-primary">Show</a>
+          <a href="/accommodations/<%= accommodation.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_accommodation/<%= accommodation.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+class AccommodationsController < ApplicationController
+  def index
+    @accommodations = Accommodation.all
+
+    render("accommodations/index.html.erb")
+  end
+
+  def show
+    @accommodation = Accommodation.find(params[:id])
+
+    render("accommodations/show.html.erb")
+  end
+
+  def new
+    @accommodation = Accommodation.new
+
+    render("accommodations/new.html.erb")
+  end
+
+  def create
+    @accommodation = Accommodation.new
+
+    @accommodation.name = params[:name]
+    @accommodation.address = params[:address]
+    @accommodation.image = params[:image]
+    @accommodation.cost_per_night = params[:cost_per_night]
+    @accommodation.user_id = params[:user_id]
+
+    save_status = @accommodation.save
+
+    if save_status == true
+      referer = URI(request.referer).path
+
+      case referer
+      when "/accommodations/new", "/create_accommodation"
+        redirect_to("/accommodations")
+      else
+        redirect_back(:fallback_location => "/", :notice => "Accommodation created successfully.")
+      end
+    else
+      render("accommodations/new.html.erb")
+    end
+  end
+
+  def edit
+    @accommodation = Accommodation.find(params[:id])
+
+    render("accommodations/edit.html.erb")
+  end
+
+  def update
+    @accommodation = Accommodation.find(params[:id])
+
+    @accommodation.name = params[:name]
+    @accommodation.address = params[:address]
+    @accommodation.image = params[:image]
+    @accommodation.cost_per_night = params[:cost_per_night]
+    @accommodation.user_id = params[:user_id]
+
+    save_status = @accommodation.save
+
+    if save_status == true
+      referer = URI(request.referer).path
+
+      case referer
+      when "/accommodations/#{@accommodation.id}/edit", "/update_accommodation"
+        redirect_to("/accommodations/#{@accommodation.id}", :notice => "Accommodation updated successfully.")
+      else
+        redirect_back(:fallback_location => "/", :notice => "Accommodation updated successfully.")
+      end
+    else
+      render("accommodations/edit.html.erb")
+    end
+  end
+
+  def destroy
+    @accommodation = Accommodation.find(params[:id])
+
+    @accommodation.destroy
+
+    if URI(request.referer).path == "/accommodations/#{@accommodation.id}"
+      redirect_to("/", :notice => "Accommodation deleted.")
+    else
+      redirect_back(:fallback_location => "/", :notice => "Accommodation deleted.")
+    end
+  end
+end
