@@ -11,6 +11,11 @@ class PointsOfInterestsController < ApplicationController
 
   def index
     @points_of_interests = PointsOfInterest.all
+    @location_hash = Gmaps4rails.build_markers(@points_of_interests.where.not(:address_latitude => nil)) do |points_of_interest, marker|
+      marker.lat points_of_interest.address_latitude
+      marker.lng points_of_interest.address_longitude
+      marker.infowindow "<h5><a href='/points_of_interests/#{points_of_interest.id}'>#{points_of_interest.name}</a></h5><small>#{points_of_interest.address_formatted_address}</small>"
+    end
 
     render("points_of_interests/index.html.erb")
   end
