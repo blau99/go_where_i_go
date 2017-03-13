@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   # Direct associations
 
+  has_many   :points_of_interests,
+             :dependent => :destroy
+
   has_many   :accommodations,
              :dependent => :destroy
 
