@@ -22,7 +22,13 @@
       <dd><%= @accommodation.cost_per_night %></dd>
 
       <dt>User</dt>
-      <dd><%= @accommodation.user_id %></dd>
+      <dd>
+        <% if @accommodation.user.present? %>
+          <a href="/users/<%= @accommodation.user_id %>">
+            <%= @accommodation.user.email %>
+          </a>
+        <% end %>
+      </dd>
 
     </dl>
 

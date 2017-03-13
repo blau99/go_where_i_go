@@ -6,16 +6,40 @@
   <div class="col-md-12 mb-2">
     <dl class="dl-horizontal">
       <dt>Restaurant</dt>
-      <dd><%= @photo.restaurant_id %></dd>
+      <dd>
+        <% if @photo.restaurant.present? %>
+          <a href="/restaurants/<%= @photo.restaurant_id %>">
+            <%= @photo.restaurant.name %>
+          </a>
+        <% end %>
+      </dd>
 
       <dt>Accommodation</dt>
-      <dd><%= @photo.accommodation_id %></dd>
+      <dd>
+        <% if @photo.accommodation.present? %>
+          <a href="/accommodations/<%= @photo.accommodation_id %>">
+            <%= @photo.accommodation.name %>
+          </a>
+        <% end %>
+      </dd>
 
       <dt>Point of interest</dt>
-      <dd><%= @photo.point_of_interest_id %></dd>
+      <dd>
+        <% if @photo.point_of_interest.present? %>
+          <a href="/points_of_interests/<%= @photo.point_of_interest_id %>">
+            <%= @photo.point_of_interest.name %>
+          </a>
+        <% end %>
+      </dd>
 
       <dt>User</dt>
-      <dd><%= @photo.user_id %></dd>
+      <dd>
+        <% if @photo.user.present? %>
+          <a href="/users/<%= @photo.user_id %>">
+            <%= @photo.user.email %>
+          </a>
+        <% end %>
+      </dd>
 
       <dt>Caption</dt>
       <dd><%= @photo.caption %></dd>

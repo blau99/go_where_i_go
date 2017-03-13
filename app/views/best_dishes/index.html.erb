@@ -15,7 +15,13 @@
 
       <% @best_dishes.each do |best_dish| %>
       <tr>
-        <td><%= best_dish.restaurant.name %></td>
+        <td>
+          <% if best_dish.restaurant.present? %>
+            <a href="/restaurants/<%= best_dish.restaurant.id %>">
+              <%= best_dish.restaurant.name %>
+            </a>
+          <% end %>
+        </td>
         <td>
           <a href="/best_dishes/<%= best_dish.id %>" class="btn btn-primary">Show</a>
           <a href="/best_dishes/<%= best_dish.id %>/edit" class="btn btn-warning">Edit</a>

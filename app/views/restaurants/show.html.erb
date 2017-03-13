@@ -19,7 +19,13 @@
       <dd><img src="<%= @restaurant.image %>" class="img-responsive"></dd>
 
       <dt>User</dt>
-      <dd><%= @restaurant.user_id %></dd>
+      <dd>
+        <% if @restaurant.user.present? %>
+          <a href="/users/<%= @restaurant.user_id %>">
+            <%= @restaurant.user.email %>
+          </a>
+        <% end %>
+      </dd>
 
     </dl>
 

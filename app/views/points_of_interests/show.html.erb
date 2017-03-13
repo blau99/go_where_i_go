@@ -22,7 +22,13 @@
       <dd><img src="<%= @points_of_interest.image %>" class="img-responsive"></dd>
 
       <dt>User</dt>
-      <dd><%= @points_of_interest.user_id %></dd>
+      <dd>
+        <% if @points_of_interest.user.present? %>
+          <a href="/users/<%= @points_of_interest.user_id %>">
+            <%= @points_of_interest.user.email %>
+          </a>
+        <% end %>
+      </dd>
 
     </dl>
 

@@ -19,10 +19,34 @@
 
       <% @photos.each do |photo| %>
       <tr>
-        <td><%= photo.restaurant.name %></td>
-        <td><%= photo.accommodation.name %></td>
-        <td><%= photo.point_of_interest.name %></td>
-        <td><%= photo.user.email %></td>
+        <td>
+          <% if photo.restaurant.present? %>
+            <a href="/restaurants/<%= photo.restaurant.id %>">
+              <%= photo.restaurant.name %>
+            </a>
+          <% end %>
+        </td>
+        <td>
+          <% if photo.accommodation.present? %>
+            <a href="/accommodations/<%= photo.accommodation.id %>">
+              <%= photo.accommodation.name %>
+            </a>
+          <% end %>
+        </td>
+        <td>
+          <% if photo.point_of_interest.present? %>
+            <a href="/points_of_interests/<%= photo.point_of_interest.id %>">
+              <%= photo.point_of_interest.name %>
+            </a>
+          <% end %>
+        </td>
+        <td>
+          <% if photo.user.present? %>
+            <a href="/users/<%= photo.user.id %>">
+              <%= photo.user.email %>
+            </a>
+          <% end %>
+        </td>
         <td><%= photo.caption %></td>
         <td>
           <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
