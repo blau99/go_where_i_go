@@ -1,0 +1,37 @@
+<!-- Validation failure messages -->
+<% if @best_dish.errors.any? %>
+  <% @best_dish.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Edit Best Dish #<%= @best_dish.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/update_best_dish/<%= @best_dish.id %>" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for restaurant_id -->
+      <div class="form-group">
+        <label for="restaurant_id" class="control-label">
+          Restaurant
+        </label>
+
+        <input type="text" id="restaurant_id" name="restaurant_id" placeholder="Restaurant" class="form-control" value="<%= @best_dish.restaurant_id %>">
+      </div>
+
+      <button class="btn btn-warning">
+        Update Best Dish
+      </button>
+      or
+      <a href="/best_dishes/<%= @best_dish.id %>">Cancel</a>
+    </form>
+  </div>
+</div>

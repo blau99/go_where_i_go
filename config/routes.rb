@@ -1,4 +1,21 @@
 Rails.application.routes.draw do
+  # Routes for the Best_dish resource:
+  # CREATE
+  get "/best_dishes/new", :controller => "best_dishes", :action => "new"
+  post "/create_best_dish", :controller => "best_dishes", :action => "create"
+
+  # READ
+  get "/best_dishes", :controller => "best_dishes", :action => "index"
+  get "/best_dishes/:id", :controller => "best_dishes", :action => "show"
+
+  # UPDATE
+  get "/best_dishes/:id/edit", :controller => "best_dishes", :action => "edit"
+  post "/update_best_dish/:id", :controller => "best_dishes", :action => "update"
+
+  # DELETE
+  get "/delete_best_dish/:id", :controller => "best_dishes", :action => "destroy"
+  #------------------------------
+
   # Routes for the Photo resource:
   # CREATE
   get "/photos/new", :controller => "photos", :action => "new"
