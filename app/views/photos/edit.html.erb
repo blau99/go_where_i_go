@@ -45,14 +45,8 @@
         <%= select_tag(:point_of_interest_id, options_from_collection_for_select(PointsOfInterest.all, :id, :name, @photo.point_of_interest_id), :class => "form-control") %>
       </div>
 
-      <!-- Label and input for user_id -->
-      <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
-
-        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :email, @photo.user_id), :class => "form-control") %>
-      </div>
+      
+      
 
       <!-- Label and input for caption -->
       <div class="form-group">
