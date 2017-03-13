@@ -26,12 +26,14 @@
       <a href="/accommodations" class="btn btn-primary">
         Back
       </a>
-      <a href="/accommodations/<%= @accommodation.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
-      <a href="/delete_accommodation/<%= @accommodation.id %>" class="btn btn-danger" rel="nofollow">
-        Delete
-      </a>
+      <% if current_user == @accommodation.user %>
+        <a href="/accommodations/<%= @accommodation.id %>/edit" class="btn btn-warning">
+          Edit
+        </a>
+        <a href="/delete_accommodation/<%= @accommodation.id %>" class="btn btn-danger" rel="nofollow">
+          Delete
+        </a>
+      <% end %>
     </div>
   </div>
 </div>

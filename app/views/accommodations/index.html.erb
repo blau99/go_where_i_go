@@ -26,8 +26,11 @@
         <td><%= accommodation.user.email %></td>
         <td>
           <a href="/accommodations/<%= accommodation.id %>" class="btn btn-primary">Show</a>
-          <a href="/accommodations/<%= accommodation.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_accommodation/<%= accommodation.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          
+          <% if current_user == accommodation.user %>
+            <a href="/accommodations/<%= accommodation.id %>/edit" class="btn btn-warning">Edit</a>
+            <a href="/delete_accommodation/<%= accommodation.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <% end %>
         </td>
       </tr>
       <% end %>
