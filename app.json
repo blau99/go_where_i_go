@@ -1,0 +1,1 @@
+{"name":"Go Where I Go","repository":"https://github.com/blau99/go_where_i_go","env":{"CLOUDINARY_CLOUD_NAME":{"required":true},"CLOUDINARY_API_KEY":{"required":true},"CLOUDINARY_API_SECRET":{"required":true},"ROLLBAR_ACCESS_TOKEN":{"required":true}}}
