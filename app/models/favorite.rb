@@ -1,6 +1,8 @@
 class Favorite < ApplicationRecord
   # Direct associations
 
+  belongs_to :restaurant
+
   belongs_to :accommodation
 
   belongs_to :point_of_interest,
