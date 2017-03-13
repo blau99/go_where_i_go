@@ -20,7 +20,7 @@
       <tr>
         <td><%= restaurant.name %></td>
         <td><%= restaurant.address %></td>
-        <td><%= restaurant.image %></td>
+        <td><img src='<%= restaurant.image %>' class='img-responsive'></td>
         <td><%= restaurant.user.email %></td>
         <td>
           <a href="/restaurants/<%= restaurant.id %>" class="btn btn-primary">Show</a>

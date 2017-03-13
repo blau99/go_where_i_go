@@ -22,7 +22,7 @@
         <td><%= points_of_interest.name %></td>
         <td><%= points_of_interest.address %></td>
         <td><%= points_of_interest.admission_fee %></td>
-        <td><%= points_of_interest.image %></td>
+        <td><img src='<%= points_of_interest.image %>' class='img-responsive'></td>
         <td><%= points_of_interest.user.email %></td>
         <td>
           <a href="/points_of_interests/<%= points_of_interest.id %>" class="btn btn-primary">Show</a>
