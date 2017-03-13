@@ -1,6 +1,10 @@
 class PointsOfInterest < ApplicationRecord
   # Direct associations
 
+  has_many   :favorites,
+             :foreign_key => "point_of_interest_id",
+             :dependent => :destroy
+
   has_many   :photos,
              :foreign_key => "point_of_interest_id",
              :dependent => :destroy
