@@ -10,7 +10,7 @@ class PointsOfInterestsController < ApplicationController
   end
 
   def index
-    @points_of_interests = PointsOfInterest.all
+    @points_of_interests = PointsOfInterest.page(params[:page]).per(10)
     @location_hash = Gmaps4rails.build_markers(@points_of_interests.where.not(:address_latitude => nil)) do |points_of_interest, marker|
       marker.lat points_of_interest.address_latitude
       marker.lng points_of_interest.address_longitude

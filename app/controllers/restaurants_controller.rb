@@ -10,7 +10,7 @@ class RestaurantsController < ApplicationController
   end
 
   def index
-    @restaurants = Restaurant.all
+    @restaurants = Restaurant.page(params[:page]).per(10)
     @location_hash = Gmaps4rails.build_markers(@restaurants.where.not(:address_latitude => nil)) do |restaurant, marker|
       marker.lat restaurant.address_latitude
       marker.lng restaurant.address_longitude

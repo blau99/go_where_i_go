@@ -1,6 +1,6 @@
 class BestDishesController < ApplicationController
   def index
-    @best_dishes = BestDish.all
+    @best_dishes = BestDish.page(params[:page]).per(10)
 
     render("best_dishes/index.html.erb")
   end
