@@ -23,12 +23,14 @@
       <a href="/restaurants" class="btn btn-primary">
         Back
       </a>
-      <a href="/restaurants/<%= @restaurant.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
-      <a href="/delete_restaurant/<%= @restaurant.id %>" class="btn btn-danger" rel="nofollow">
-        Delete
-      </a>
+      <% if current_user == @restaurant.user %>
+        <a href="/restaurants/<%= @restaurant.id %>/edit" class="btn btn-warning">
+          Edit
+        </a>
+        <a href="/delete_restaurant/<%= @restaurant.id %>" class="btn btn-danger" rel="nofollow">
+          Delete
+        </a>
+      <% end %>
     </div>
   </div>
 </div>
