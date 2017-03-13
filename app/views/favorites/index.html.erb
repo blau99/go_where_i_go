@@ -18,7 +18,7 @@
 
       <% @favorites.each do |favorite| %>
       <tr>
-        <td><%= favorite.restaurant_id %></td>
+        <td><%= favorite.restaurant.name %></td>
         <td><%= favorite.accommodation_id %></td>
         <td><%= favorite.point_of_interest_id %></td>
         <td><%= favorite.user_id %></td>
