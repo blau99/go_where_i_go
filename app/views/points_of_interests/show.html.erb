@@ -26,12 +26,14 @@
       <a href="/points_of_interests" class="btn btn-primary">
         Back
       </a>
-      <a href="/points_of_interests/<%= @points_of_interest.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
-      <a href="/delete_points_of_interest/<%= @points_of_interest.id %>" class="btn btn-danger" rel="nofollow">
-        Delete
-      </a>
+      <% if current_user == @points_of_interest.user %>
+        <a href="/points_of_interests/<%= @points_of_interest.id %>/edit" class="btn btn-warning">
+          Edit
+        </a>
+        <a href="/delete_points_of_interest/<%= @points_of_interest.id %>" class="btn btn-danger" rel="nofollow">
+          Delete
+        </a>
+      <% end %>
     </div>
   </div>
 </div>

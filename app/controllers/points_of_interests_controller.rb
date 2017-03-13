@@ -1,4 +1,14 @@
 class PointsOfInterestsController < ApplicationController
+  before_action :current_user_must_be_points_of_interest_user, :only => [:edit, :update, :destroy]
+
+  def current_user_must_be_points_of_interest_user
+    points_of_interest = PointsOfInterest.find(params[:id])
+
+    unless current_user == points_of_interest.user
+      redirect_to :back, :alert => "You are not authorized for that."
+    end
+  end
+
   def index
     @points_of_interests = PointsOfInterest.all
 
