@@ -1,0 +1,37 @@
+<div class="page-header">
+  <h3>Points Of Interest #<%= @points_of_interest.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12 mb-2">
+    <dl class="dl-horizontal">
+      <dt>Name</dt>
+      <dd><%= @points_of_interest.name %></dd>
+
+      <dt>Address</dt>
+      <dd><%= @points_of_interest.address %></dd>
+
+      <dt>Admission fee</dt>
+      <dd><%= @points_of_interest.admission_fee %></dd>
+
+      <dt>Image</dt>
+      <dd><%= @points_of_interest.image %></dd>
+
+      <dt>User</dt>
+      <dd><%= @points_of_interest.user_id %></dd>
+
+    </dl>
+
+    <div class="btn-group btn-group-justified">
+      <a href="/points_of_interests" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/points_of_interests/<%= @points_of_interest.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_points_of_interest/<%= @points_of_interest.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
+    </div>
+  </div>
+</div>

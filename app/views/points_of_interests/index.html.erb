@@ -1,0 +1,36 @@
+<div class="page-header">
+  <h1>
+    Points of interests
+    <a href="/points_of_interests/new" class="btn btn-lg btn-success">New Points of interest</a>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Admission fee</th>
+        <th>Image</th>
+        <th>User</th>
+        <th>Actions</th>
+      </tr>
+
+      <% @points_of_interests.each do |points_of_interest| %>
+      <tr>
+        <td><%= points_of_interest.name %></td>
+        <td><%= points_of_interest.address %></td>
+        <td><%= points_of_interest.admission_fee %></td>
+        <td><%= points_of_interest.image %></td>
+        <td><%= points_of_interest.user_id %></td>
+        <td>
+          <a href="/points_of_interests/<%= points_of_interest.id %>" class="btn btn-primary">Show</a>
+          <a href="/points_of_interests/<%= points_of_interest.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_points_of_interest/<%= points_of_interest.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

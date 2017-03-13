@@ -1,0 +1,73 @@
+<!-- Validation failure messages -->
+<% if @points_of_interest.errors.any? %>
+  <% @points_of_interest.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Edit Points Of Interest #<%= @points_of_interest.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/update_points_of_interest/<%= @points_of_interest.id %>" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for name -->
+      <div class="form-group">
+        <label for="name" class="control-label">
+          Name
+        </label>
+
+        <input type="text" id="name" name="name" placeholder="Name" class="form-control" value="<%= @points_of_interest.name %>">
+      </div>
+
+      <!-- Label and input for address -->
+      <div class="form-group">
+        <label for="address" class="control-label">
+          Address
+        </label>
+
+        <input type="text" id="address" name="address" placeholder="Address" class="form-control" value="<%= @points_of_interest.address %>">
+      </div>
+
+      <!-- Label and input for admission_fee -->
+      <div class="form-group">
+        <label for="admission_fee" class="control-label">
+          Admission fee
+        </label>
+
+        <input type="text" id="admission_fee" name="admission_fee" placeholder="Admission fee" class="form-control" value="<%= @points_of_interest.admission_fee %>">
+      </div>
+
+      <!-- Label and input for image -->
+      <div class="form-group">
+        <label for="image" class="control-label">
+          Image
+        </label>
+
+        <input type="text" id="image" name="image" placeholder="Image" class="form-control" value="<%= @points_of_interest.image %>">
+      </div>
+
+      <!-- Label and input for user_id -->
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @points_of_interest.user_id %>">
+      </div>
+
+      <button class="btn btn-warning">
+        Update Points Of Interest
+      </button>
+      or
+      <a href="/points_of_interests/<%= @points_of_interest.id %>">Cancel</a>
+    </form>
+  </div>
+</div>
