@@ -23,7 +23,7 @@
         <td><%= accommodation.address %></td>
         <td><%= accommodation.image %></td>
         <td><%= accommodation.cost_per_night %></td>
-        <td><%= accommodation.user_id %></td>
+        <td><%= accommodation.user.email %></td>
         <td>
           <a href="/accommodations/<%= accommodation.id %>" class="btn btn-primary">Show</a>
           <a href="/accommodations/<%= accommodation.id %>/edit" class="btn btn-warning">Edit</a>
