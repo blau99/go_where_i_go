@@ -65,6 +65,50 @@
           </div>
         </li>
       <% end %>
+
+      <li class="list-group-item">
+        <form action="/create_photo" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for restaurant_id -->
+      <div class="form-group">
+        <label for="restaurant_id" class="control-label">
+          Restaurant
+        </label>
+
+        <%= select_tag(:restaurant_id, options_from_collection_for_select(Restaurant.all, :id, :name), :class => "form-control") %>
+      </div>
+
+      <!-- Label and input for accommodation_id -->
+      <input type="hidden" name="accommodation_id" value="<%= @accommodation.id %>">
+
+      <!-- Label and input for point_of_interest_id -->
+      <div class="form-group">
+        <label for="point_of_interest_id" class="control-label">
+          Point of interest
+        </label>
+
+        <%= select_tag(:point_of_interest_id, options_from_collection_for_select(PointsOfInterest.all, :id, :name), :class => "form-control") %>
+      </div>
+
+      <!-- Label and input for user_id -->
+      <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+      <!-- Label and input for caption -->
+      <div class="form-group">
+        <label for="caption" class="control-label">
+          Caption
+        </label>
+
+        <textarea id="caption" name="caption" placeholder="Caption" class="form-control" rows="3"></textarea>
+      </div>
+
+      <button class="btn btn-block btn-success">
+        Create Photo
+      </button>
+    </form>
+      </li>
     </ul>
   </div>
 </div>
@@ -96,6 +140,47 @@
           </div>
         </li>
       <% end %>
+
+      <li class="list-group-item">
+        <form action="/create_favorite" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for restaurant_id -->
+      <div class="form-group">
+        <label for="restaurant_id" class="control-label">
+          Restaurant
+        </label>
+
+        <%= select_tag(:restaurant_id, options_from_collection_for_select(Restaurant.all, :id, :name), :class => "form-control") %>
+      </div>
+
+      <!-- Label and input for accommodation_id -->
+      <input type="hidden" name="accommodation_id" value="<%= @accommodation.id %>">
+
+      <!-- Label and input for point_of_interest_id -->
+      <div class="form-group">
+        <label for="point_of_interest_id" class="control-label">
+          Point of interest
+        </label>
+
+        <%= select_tag(:point_of_interest_id, options_from_collection_for_select(PointsOfInterest.all, :id, :name), :class => "form-control") %>
+      </div>
+
+      <!-- Label and input for user_id -->
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :email), :class => "form-control") %>
+      </div>
+
+      <button class="btn btn-block btn-success">
+        Create Favorite
+      </button>
+    </form>
+      </li>
     </ul>
   </div>
 </div>

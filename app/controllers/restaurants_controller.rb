@@ -16,6 +16,9 @@ class RestaurantsController < ApplicationController
   end
 
   def show
+    @favorite = Favorite.new
+    @photo = Photo.new
+    @best_dish = BestDish.new
     @restaurant = Restaurant.find(params[:id])
 
     render("restaurants/show.html.erb")
