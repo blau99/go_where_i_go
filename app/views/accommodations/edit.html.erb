@@ -55,14 +55,8 @@
         <input type="text" id="cost_per_night" name="cost_per_night" placeholder="Cost per night" class="form-control" value="<%= @accommodation.cost_per_night %>">
       </div>
 
-      <!-- Label and input for user_id -->
-      <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
-
-        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :email, @accommodation.user_id), :class => "form-control") %>
-      </div>
+      
+      
 
       <button class="btn btn-warning">
         Update Accommodation
