@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  root :to => "favorites#index"
+  root :to => "photos#index"
   # Routes for the Friend_request resource:
   # CREATE
   get "/friend_requests/new", :controller => "friend_requests", :action => "new"
@@ -52,6 +52,10 @@ Rails.application.routes.draw do
   # DELETE
   get "/delete_best_dish/:id", :controller => "best_dishes", :action => "destroy"
   #------------------------------
+  devise_for :users
+  root "photos#index"
+
+  get "/my_timeline", :controller => "photos", :action => "my_timeline"
 
   # Routes for the Photo resource:
   # CREATE
@@ -121,7 +125,6 @@ Rails.application.routes.draw do
   get "/delete_favorite/:id", :controller => "favorites", :action => "destroy"
   #------------------------------
 
-  devise_for :users
   # Routes for the User resource:
   # READ
   get "/users", :controller => "users", :action => "index"

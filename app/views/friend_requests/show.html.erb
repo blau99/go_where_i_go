@@ -3,25 +3,13 @@
 </div>
 
 <div class="row">
-  <div class="col-md-12 mb-2">
+  <div class="col-md-12">
     <dl class="dl-horizontal">
       <dt>Sender</dt>
-      <dd>
-        <% if @friend_request.sender.present? %>
-          <a href="/users/<%= @friend_request.sender_id %>">
-            <%= @friend_request.sender.email %>
-          </a>
-        <% end %>
-      </dd>
+      <dd><%= @friend_request.sender_id %></dd>
 
-      <dt>Recipient</dt>
-      <dd>
-        <% if @friend_request.recipient.present? %>
-          <a href="/users/<%= @friend_request.recipient_id %>">
-            <%= @friend_request.recipient.email %>
-          </a>
-        <% end %>
-      </dd>
+      <dt>Receiver</dt>
+      <dd><%= @friend_request.recipient_id %></dd>
 
     </dl>
 
@@ -29,14 +17,12 @@
       <a href="/friend_requests" class="btn btn-primary">
         Back
       </a>
-      <% if current_user == @friend_request.sender %>
-        <a href="/friend_requests/<%= @friend_request.id %>/edit" class="btn btn-warning">
-          Edit
-        </a>
-        <a href="/delete_friend_request/<%= @friend_request.id %>" class="btn btn-danger" rel="nofollow">
-          Delete
-        </a>
-      <% end %>
+      <a href="/friend_requests/<%= @friend_request.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_friend_request/<%= @friend_request.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
     </div>
   </div>
 </div>

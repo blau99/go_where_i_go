@@ -1,13 +1,13 @@
 class PointsOfInterestsController < ApplicationController
   before_action :current_user_must_be_points_of_interest_user, :only => [:edit, :update, :destroy]
 
-  def current_user_must_be_points_of_interest_user
-    points_of_interest = PointsOfInterest.find(params[:id])
-
-    unless current_user == points_of_interest.user
-      redirect_to :back, :alert => "You are not authorized for that."
-    end
-  end
+  # def current_user_must_be_points_of_interest_user
+  #   points_of_interest = PointsOfInterest.find(params[:id])
+  #
+  #   unless current_user == points_of_interest.user
+  #     redirect_to :back, :alert => "You are not authorized for that."
+  #   end
+  # end
 
   def index
     @q = PointsOfInterest.ransack(params[:q])
@@ -42,21 +42,12 @@ class PointsOfInterestsController < ApplicationController
     @points_of_interest.address = params[:address]
     @points_of_interest.admission_fee = params[:admission_fee]
     @points_of_interest.image = params[:image]
-    @points_of_interest.user_id = params[:user_id]
+    @points_of_interest.user_id = current_user.id
 
-    save_status = @points_of_interest.save
-
-    if save_status == true
-      referer = URI(request.referer).path
-
-      case referer
-      when "/points_of_interests/new", "/create_points_of_interest"
-        redirect_to("/points_of_interests")
-      else
-        redirect_back(:fallback_location => "/", :notice => "Points of interest created successfully.")
-      end
+    if @points_of_interest.save
+      redirect_to "/photos", :notice => "Point of Interest created successfully."
     else
-      render("points_of_interests/new.html.erb")
+      render 'new'
     end
   end
 
@@ -73,21 +64,13 @@ class PointsOfInterestsController < ApplicationController
     @points_of_interest.address = params[:address]
     @points_of_interest.admission_fee = params[:admission_fee]
     @points_of_interest.image = params[:image]
-    @points_of_interest.user_id = params[:user_id]
+    @points_of_interest.user_id = current_user.id
 
-    save_status = @points_of_interest.save
 
-    if save_status == true
-      referer = URI(request.referer).path
-
-      case referer
-      when "/points_of_interests/#{@points_of_interest.id}/edit", "/update_points_of_interest"
-        redirect_to("/points_of_interests/#{@points_of_interest.id}", :notice => "Points of interest updated successfully.")
-      else
-        redirect_back(:fallback_location => "/", :notice => "Points of interest updated successfully.")
-      end
+    if @points_of_interest.save
+      redirect_to "/photos", :notice => "Point of Interest updated successfully."
     else
-      render("points_of_interests/edit.html.erb")
+      render 'edit'
     end
   end
 

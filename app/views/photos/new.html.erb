@@ -1,67 +1,75 @@
-<!-- Validation failure messages -->
-<% if @photo.errors.any? %>
-  <% @photo.errors.full_messages.each do |message| %>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <!-- Validation failure messages -->
+    <% if @photo.errors.any? %>
+    <% @photo.errors.full_messages.each do |message| %>
     <div class="alert alert-dismissable alert-danger">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <button type="button"
+      class="close"
+      data-dismiss="alert" aria-hidden="true">&times;</button>
       <%= message %>
     </div>
-  <% end %>
-<% end %>
+    <% end %>
+    <% end %>
 
-<div class="page-header">
-  <h3>Add Photo</h3>
-</div>
-
-<div class="row">
-  <div class="col-md-12">
-    <form action="/create_photo" method="post">
-      <!-- Hidden input for authenticity token to protect from forgery -->
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-
-      <!-- Label and input for restaurant_id -->
-      <div class="form-group">
-        <label for="restaurant_id" class="control-label">
-          Restaurant
-        </label>
-
-        <%= select_tag(:restaurant_id, options_from_collection_for_select(Restaurant.all, :id, :name, @photo.restaurant_id), :class => "form-control") %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          Add Photo
+        </h3>
       </div>
 
-      <!-- Label and input for accommodation_id -->
-      <div class="form-group">
-        <label for="accommodation_id" class="control-label">
-          Accommodation
-        </label>
+      <div class="panel-body">
+        <form action="/create_photo" method="post" enctype="multipart/form-data">
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
-        <%= select_tag(:accommodation_id, options_from_collection_for_select(Accommodation.all, :id, :name, @photo.accommodation_id), :class => "form-control") %>
-      </div>
+          <!-- Label and input for restaurant_id -->
+          <div class="form-group">
+            <label for="restaurant_id" class="control-label">
+              Restaurant
+            </label>
 
-      <!-- Label and input for point_of_interest_id -->
-      <div class="form-group">
-        <label for="point_of_interest_id" class="control-label">
-          Point of interest
-        </label>
+            <%= select_tag(:restaurant_id, options_from_collection_for_select(Restaurant.all, :id, :name, @photo.restaurant_id), :class => "form-control") %>
+          </div>
 
-        <%= select_tag(:point_of_interest_id, options_from_collection_for_select(PointsOfInterest.all, :id, :name, @photo.point_of_interest_id), :class => "form-control") %>
-      </div>
+          <!-- Label and input for accommodation_id -->
+          <div class="form-group">
+            <label for="accommodation_id" class="control-label">
+              Accommodation
+            </label>
 
-      <!-- Label and input for user_id -->
-      <input type="hidden" name="user_id" value="<%= current_user.id %>">
+            <%= select_tag(:accommodation_id, options_from_collection_for_select(Accommodation.all, :id, :name, @photo.accommodation_id), :class => "form-control") %>
+          </div>
 
-      <!-- Label and input for caption -->
-      <div class="form-group">
-        <label for="caption" class="control-label">
-          Caption
-        </label>
+          <!-- Label and input for point_of_interest_id -->
+          <div class="form-group">
+            <label for="point_of_interest_id" class="control-label">
+              Point of interest
+            </label>
 
-        <textarea id="caption" name="caption" placeholder="Caption" class="form-control" rows="3"><%= @photo.caption %></textarea>
-      </div>
+            <%= select_tag(:point_of_interest_id, options_from_collection_for_select(PointsOfInterest.all, :id, :name, @photo.point_of_interest_id), :class => "form-control") %>
+          </div>
 
-      <button class="btn btn-success">
-        Create Photo
-      </button>
-      or
-      <a href="/photos">Cancel</a>
-    </form>
+          <!-- Label and input for user_id -->
+          <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+          <!-- Label and input for caption -->
+          <div class="form-group">
+            <label for="caption" class="control-label">
+              Caption
+            </label>
+
+            <textarea id="caption" name="caption" placeholder="Caption" class="form-control" rows="3" value="<%= @photo.caption %>"></textarea>
+          </div>
+
+          <button class="btn btn-success">
+            Create Photo
+          </button>
+          or
+          <a href="/photos">Cancel</a>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

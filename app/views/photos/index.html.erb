@@ -1,142 +1,111 @@
-<div class="page-header">
-  <h1>
-    Photos
-    <a href="/photos/new" class="btn btn-lg btn-success">New Photo</a>
-  </h1>
-</div><div class="row mb-1">
-  <div class="col-md-12">
-    <%= search_form_for @q, :class => collapse_search_form, :id => "photos_filters" do |f| %>
-      <p class="lead">Narrow results:</p>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <a href="/accommodations/new" class="btn btn-default btn-block">
+      <i class="fa fa-plus"></i>
+      New Accommodation
+    </a>
 
-        <div class="form-group">
-    <%= f.label :caption_cont, "Caption contains" %>
-    <%= f.text_field :caption_cont, :class => "form-control", :placeholder => "Caption contains" %>
+    <a href="/restaurants/new" class="btn btn-default btn-block">
+      <i class="fa fa-plus"></i>
+      New Restaurant
+    </a>
+
+    <a href="/points_of_interests/new" class="btn btn-default btn-block">
+      <i class="fa fa-plus"></i>
+      New Point of Interest
+    </a>
+
+    <hr>
   </div>
+</div>
 
-<div class="form-group">
-          <%= f.label :created_at, "Created at" %>
-          <div class="row">
-            <div class='col-md-6 mb-1'>
-              <div class='input-group date' id='created_atgteqPicker'>
-                  <%= f.text_field :created_at_gteq, :class => "form-control", :placeholder => "Created at greater than or equal to" %>
-                  <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-              </div>
-            </div>
+<!--<div class="page-header">
+<h1>
+<a href="/photos/new" class="btn btn-lg btn-success">New Post</a>
+</h1>
+</div>-->
 
-            <div class='col-md-6'>
-              <div class='input-group date' id='created_atlteqPicker'>
-                  <%= f.text_field :created_at_lteq, :class => "form-control", :placeholder => "Created at less than or equal to" %>
-                  <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <table class="table table-hover table-striped">
+        <% @photos.each do |photo| %>
+        <tr>
+          <div class="panel panel-primary">
+            <td><div class="panel-heading">
+              <%= photo.caption %></div></td>
+              <td><%= photo.user.username %></td>
+              <td><%=time_ago_in_words(photo.created_at) %> ago</td>
+              <div class="panel-body">
+                <% if photo.restaurant.name.length != 0 %>
+                <img class="img-responsive" src="<%= photo.restaurant.image %>" length="480" width="480" />
+                <% end %>
+                <% if photo.accommodation.name.length != 0 %>
+                <img class="img-responsive" src="<%= photo.accommodation.image %>" length="480" width="480" />
+                <% end %>
+                <% if photo.points_of_interest.name.length != 0 %>
+                <img class="img-responsive" src="<%= photo.points_of_interest.image %>" length="480" width="480" />
+                <% end %>
+                <p>
+                  <form action="/create_like" method="post">
+                    <!-- Hidden input for authenticity token to protect from forgery -->
+                    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                    <input type="hidden" name="photo_id" value="<%= photo.id %>" >
+                    <% User.all.each do |u| %>
+                    <% if u == current_user %>
+                    <input type="hidden" name="user_id" value="<%= u.id %>" >
+                    <% end %>
+                    <% end %>
+
+                    <% found = false
+                    isDelete = false
+                    like_user = ""
+                    like_cnt = 0
+                    Favorite.all.each do |fav|
+                      if fav.restaurant == photo.restaurant ||
+                        fav.accommodation == photo.accommodation ||
+                        fav.points_of_interest == photo.points_of_interest
+                        found = true
+                        like_cnt += 1
+                        if fav.user == current_user %>
+                        <a href="/delete_like/<%= fav.id %>" class="btn btn-link">
+                          <i class="fa fa-heart"></i>
+                        </a>
+                        <% isDelete = true
+                      end
+                      like_user = like_user + fav.user.username + ","
+                    end
+                  end
+
+                  if found == false %>
+                  <button class="btn btn-link">
+                    <i class="fa fa-heart-o"></i>
+                  </button>
+                  <small class="text-muted">be the first to like this</small>
+                  <% end
+
+                  if isDelete == false %>
+                  <button class="btn btn-link">
+                    <i class="fa fa-heart-o"></i>
+                  </button>
+                  <% end %>
+                  <% like_user = like_user.split(",")
+                  like_user = like_user.to_sentence %>
+                  <%= like_user %> like this
+                </form>
+              </p>
+
+              <div class="col-md-12">
+                <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
+                <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
+                <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
               </div>
             </div>
           </div>
-      </div>
-      <script type="text/javascript">
-          $(function () {
-              $('#created_atgteqPicker').datetimepicker({
-                  format: 'YYYY-MM-DD hh:mm:SS'
-              });
-              $('#created_atlteqPicker').datetimepicker({
-                  useCurrent: false,
-                  format: 'YYYY-MM-DD hh:mm:SS'
-              });
-              $('#created_atgteqPicker').on("dp.change", function (e) {
-                  $('#created_atlteqPicker').data("DateTimePicker").minDate(e.date);
-              });
-              $('#created_atlteqPicker').on("dp.change", function (e) {
-                  $('#created_atgteqPicker').data("DateTimePicker").maxDate(e.date);
-              });
-          });
-      </script>
-
-        <div class="form-group">
-      <%= f.label :user_email_cont, "User email contains" %>
-      <%= f.text_field :user_email_cont, :class => "form-control", :placeholder => "User email contains" %>
+        </tr>
+        <% end %>
+      </table>
     </div>
-
-<div class="form-group">
-      <%= f.label :point_of_interest_name_cont, "PointsOfInterest name contains" %>
-      <%= f.text_field :point_of_interest_name_cont, :class => "form-control", :placeholder => "PointsOfInterest name contains" %>
-    </div>
-
-<div class="form-group">
-      <%= f.label :accommodation_name_cont, "Accommodation name contains" %>
-      <%= f.text_field :accommodation_name_cont, :class => "form-control", :placeholder => "Accommodation name contains" %>
-    </div>
-
-<div class="form-group">
-      <%= f.label :restaurant_name_cont, "Restaurant name contains" %>
-      <%= f.text_field :restaurant_name_cont, :class => "form-control", :placeholder => "Restaurant name contains" %>
-    </div>
-
-      <%= f.submit :class => "btn btn-primary btn-block mb-1" %>
-
-      <a href="/photos" class="btn btn-default btn-block mb-1">Clear filters</a>
-    <% end %>
-    <a class="btn btn-default btn-block mb-1" data-toggle="collapse" href="#photos_filters">
-      Show Filters
-    </a>
   </div>
 </div>
-
-<div class="row">
-  <div class="col-md-12">
-    <table class="table table-striped table-hover">
-      <tr>
-        <th>Restaurant</th>
-        <th>Accommodation</th>
-        <th>Point of interest</th>
-        <th>User</th>
-        <th>Caption</th>
-        <th>Actions</th>
-      </tr>
-
-      <% @photos.each do |photo| %>
-      <tr>
-        <td>
-          <% if photo.restaurant.present? %>
-            <a href="/restaurants/<%= photo.restaurant.id %>">
-              <%= photo.restaurant.name %>
-            </a>
-          <% end %>
-        </td>
-        <td>
-          <% if photo.accommodation.present? %>
-            <a href="/accommodations/<%= photo.accommodation.id %>">
-              <%= photo.accommodation.name %>
-            </a>
-          <% end %>
-        </td>
-        <td>
-          <% if photo.point_of_interest.present? %>
-            <a href="/points_of_interests/<%= photo.point_of_interest.id %>">
-              <%= photo.point_of_interest.name %>
-            </a>
-          <% end %>
-        </td>
-        <td>
-          <% if photo.user.present? %>
-            <a href="/users/<%= photo.user.id %>">
-              <%= photo.user.email %>
-            </a>
-          <% end %>
-        </td>
-        <td><%= photo.caption %></td>
-        <td>
-          <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
-          
-          <% if current_user == photo.user %>
-            <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
-            <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
-          <% end %>
-        </td>
-      </tr>
-      <% end %>
-    </table>
-    <%= paginate @photos, theme: 'twitter-bootstrap-4' %>
-  </div>
-</div>
+<!-- <%= render @photos %> -->

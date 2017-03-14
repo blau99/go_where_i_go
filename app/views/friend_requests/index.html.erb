@@ -10,37 +10,21 @@
     <table class="table table-striped table-hover">
       <tr>
         <th>Sender</th>
-        <th>Recipient</th>
+        <th>Receiver</th>
         <th>Actions</th>
       </tr>
 
       <% @friend_requests.each do |friend_request| %>
       <tr>
-        <td>
-          <% if friend_request.sender.present? %>
-            <a href="/users/<%= friend_request.sender.id %>">
-              <%= friend_request.sender.email %>
-            </a>
-          <% end %>
-        </td>
-        <td>
-          <% if friend_request.recipient.present? %>
-            <a href="/users/<%= friend_request.recipient.id %>">
-              <%= friend_request.recipient.email %>
-            </a>
-          <% end %>
-        </td>
+        <td><%= friend_request.sender.username %></td>
+        <td><%= friend_request.recipient.username %></td>
         <td>
           <a href="/friend_requests/<%= friend_request.id %>" class="btn btn-primary">Show</a>
-          
-          <% if current_user == friend_request.sender %>
-            <a href="/friend_requests/<%= friend_request.id %>/edit" class="btn btn-warning">Edit</a>
-            <a href="/delete_friend_request/<%= friend_request.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
-          <% end %>
+          <a href="/friend_requests/<%= friend_request.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_friend_request/<%= friend_request.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
         </td>
       </tr>
       <% end %>
     </table>
-    <%= paginate @friend_requests, theme: 'twitter-bootstrap-4' %>
   </div>
 </div>

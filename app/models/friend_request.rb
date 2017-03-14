@@ -1,16 +1,8 @@
 class FriendRequest < ApplicationRecord
-  # Direct associations
+  belongs_to :sender, :class_name => "User", :foreign_key => "sender_id"
 
-  belongs_to :recipient,
-             :class_name => "User",
-             :counter_cache => :friend_requests_received_count
+  belongs_to :recipient, :class_name => "User", :foreign_key => "recipient_id"
 
-  belongs_to :sender,
-             :class_name => "User",
-             :counter_cache => :friend_requests_sent_count
-
-  # Indirect associations
-
-  # Validations
-
+  validates :sender, :presence => true, :uniqueness => { :scope => :recipient }
+  validates :recipient, :presence => true
 end

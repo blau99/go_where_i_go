@@ -1,11 +1,11 @@
 <!-- Validation failure messages -->
 <% if @friend_request.errors.any? %>
-  <% @friend_request.errors.full_messages.each do |message| %>
-    <div class="alert alert-dismissable alert-danger">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <%= message %>
-    </div>
-  <% end %>
+<% @friend_request.errors.full_messages.each do |message| %>
+<div class="alert alert-dismissable alert-danger">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <%= message %>
+</div>
+<% end %>
 <% end %>
 
 <div class="page-header">
@@ -18,16 +18,22 @@
       <!-- Hidden input for authenticity token to protect from forgery -->
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
-      
-      
-
-      <!-- Label and input for recipient_id -->
+      <!-- Label and input for sender_id -->
       <div class="form-group">
-        <label for="recipient_id" class="control-label">
-          Recipient
+        <label for="sender_id" class="control-label">
+          Sender
         </label>
 
-        <%= select_tag(:recipient_id, options_from_collection_for_select(User.all, :id, :email, @friend_request.recipient_id), :class => "form-control") %>
+        <input type="text" id="sender_id" name="sender_id" placeholder="Sender" class="form-control" value="<%= @friend_request.sender_id %>">
+      </div>
+
+      <!-- Label and input for receiver_id -->
+      <div class="form-group">
+        <label for="receiver_id" class="control-label">
+          Receiver
+        </label>
+
+        <input type="text" id="receiver_id" name="receiver_id" placeholder="Receiver" class="form-control" value="<%= @friend_request.receiver_id %>">
       </div>
 
       <button class="btn btn-warning">
