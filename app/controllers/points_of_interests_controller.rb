@@ -31,20 +31,27 @@ class PointsOfInterestsController < ApplicationController
 
   def new
     @points_of_interest = PointsOfInterest.new
+	@photo = Photo.new
 
     render("points_of_interests/new.html.erb")
   end
 
   def create
     @points_of_interest = PointsOfInterest.new
-
     @points_of_interest.name = params[:name]
     @points_of_interest.address = params[:address]
     @points_of_interest.admission_fee = params[:admission_fee]
     @points_of_interest.image = params[:image]
     @points_of_interest.user_id = current_user.id
+	save_status = @points_of_interest.save
 
-    if @points_of_interest.save
+	@photo = Photo.new
+    @photo.caption = params[:caption]
+    @photo.user_id = params[:user_id]
+	@photo.point_of_interest_id = @points_of_interest.id
+	@photo.save
+	
+    if save_status
       redirect_to "/photos", :notice => "Point of Interest created successfully."
     else
       render 'new'

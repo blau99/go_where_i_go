@@ -19,32 +19,23 @@
   </div>
 </div>
 
-<!--<div class="page-header">
-<h1>
-<a href="/photos/new" class="btn btn-lg btn-success">New Post</a>
-</h1>
-</div>-->
-
 <div class="row">
   <div class="col-md-8">
     <div class="panel panel-default">
-      <table class="table table-hover table-striped">
         <% @photos.each do |photo| %>
-        <tr>
           <div class="panel panel-primary">
-            <td><div class="panel-heading">
-              <%= photo.caption %></div></td>
-              <td><%= photo.user.username %></td>
-              <td><%=time_ago_in_words(photo.created_at) %> ago</td>
+              <div class="panel-heading">
+                <%= photo.user.username %>    <%= time_ago_in_words(photo.created_at) %> ago
+			  </div>
               <div class="panel-body">
-                <% if photo.restaurant.name.length != 0 %>
-                <img class="img-responsive" src="<%= photo.restaurant.image %>" length="480" width="480" />
+                <% if photo.restaurant.present? %>
+                     <img class="img-responsive" src="<%= photo.restaurant.image %>" length="480" width="480" />
                 <% end %>
-                <% if photo.accommodation.name.length != 0 %>
-                <img class="img-responsive" src="<%= photo.accommodation.image %>" length="480" width="480" />
+                <% if photo.accommodation.present? %>
+                     <img class="img-responsive" src="<%= photo.accommodation.image %>" length="480" width="480" />
                 <% end %>
-                <% if photo.points_of_interest.name.length != 0 %>
-                <img class="img-responsive" src="<%= photo.points_of_interest.image %>" length="480" width="480" />
+                <% if photo.point_of_interest.present? %>
+                     <img class="img-responsive" src="<%= photo.point_of_interest.image %>" length="480" width="480" />
                 <% end %>
                 <p>
                   <form action="/create_like" method="post">
@@ -52,9 +43,9 @@
                     <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
                     <input type="hidden" name="photo_id" value="<%= photo.id %>" >
                     <% User.all.each do |u| %>
-                    <% if u == current_user %>
-                    <input type="hidden" name="user_id" value="<%= u.id %>" >
-                    <% end %>
+                      <% if u == current_user %>
+                        <input type="hidden" name="user_id" value="<%= u.id %>" >
+                      <% end %>
                     <% end %>
 
                     <% found = false
@@ -92,20 +83,28 @@
                   <% like_user = like_user.split(",")
                   like_user = like_user.to_sentence %>
                   <%= like_user %> like this
+				  <% if photo.user == current_user %>
+				    <div>
+				      <small class="text-muted col-md-6"><%= photo.caption %></small>
+					  <span class="col-md-6">
+					    <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
+					    <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
+					    <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+					  </span>
+				    </div>
+				  <% else %>
+				    <div>
+				      <small class="text-muted col-md-6"><%= photo.caption %></small>
+					  <span class="col-md-6">
+					    <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
+					  </span>
+				    </div>
+				  <% end %>
                 </form>
               </p>
-
-              <div class="col-md-12">
-                <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
-                <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
-                <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
-              </div>
             </div>
           </div>
-        </tr>
         <% end %>
-      </table>
     </div>
   </div>
 </div>
-<!-- <%= render @photos %> -->

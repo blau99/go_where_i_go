@@ -32,20 +32,25 @@ class RestaurantsController < ApplicationController
 
   def new
     @restaurant = Restaurant.new
+	@photo = Photo.new
 
     render("restaurants/new.html.erb")
   end
 
   def create
     @restaurant = Restaurant.new
-
     @restaurant.name = params[:name]
     @restaurant.address = params[:address]
     @restaurant.image = params[:image]
     @restaurant.user_id = params[:user_id]
-
     save_status = @restaurant.save
 
+	@photo = Photo.new
+    @photo.caption = params[:caption]
+    @photo.user_id = params[:user_id]
+	@photo.restaurant_id = @restaurant.id
+	@photo.save
+	
     if save_status == true
       referer = URI(request.referer).path
 

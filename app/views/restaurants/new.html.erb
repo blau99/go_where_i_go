@@ -36,13 +36,23 @@
         <input type="text" id="address" name="address" placeholder="Address" class="form-control" value="<%= @restaurant.address %>">
       </div>
 
+	  <!-- Label and input for caption -->
+      <div class="form-group">
+        <label for="caption" class="control-label">
+          Caption
+        </label>
+
+        <input type="text" id="caption" name="caption" placeholder="Caption" class="form-control" value="<%= @photo.caption %>">
+      </div>
+
       <!-- Label and input for image -->
       <div class="form-group">
         <label for="image" class="control-label">
           Image
         </label>
 
-        <input type="file" id="image" name="image" class="form-control">
+        <!--<input type="file" id="image" name="image" class="form-control">-->
+		<input type="text" id="image" name="image" placeholder="Image" class="form-control" value="<%= @restaurant.image %>">
       </div>
 
       <!-- Label and input for user_id -->

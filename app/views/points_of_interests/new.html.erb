@@ -45,13 +45,23 @@
         <input type="text" id="admission_fee" name="admission_fee" placeholder="Admission fee" class="form-control" value="<%= @points_of_interest.admission_fee %>">
       </div>
 
+	  <!-- Label and input for caption -->
+      <div class="form-group">
+        <label for="caption" class="control-label">
+          Caption
+        </label>
+
+        <input type="text" id="caption" name="caption" placeholder="Caption" class="form-control" value="<%= @photo.caption %>">
+      </div>
+	  
       <!-- Label and input for image -->
       <div class="form-group">
         <label for="image" class="control-label">
           Image
         </label>
 
-        <input type="file" id="image" name="image" class="form-control">
+        <!--<input type="file" id="image" name="image" class="form-control">-->
+		<input type="text" id="image" name="image" placeholder="Image" class="form-control" value="<%= @points_of_interest.image %>">
       </div>
 
       <!-- Label and input for user_id -->

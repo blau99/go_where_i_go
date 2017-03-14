@@ -31,21 +31,26 @@ class AccommodationsController < ApplicationController
 
   def new
     @accommodation = Accommodation.new
+	@photo = Photo.new
 
     render("accommodations/new.html.erb")
   end
 
   def create
     @accommodation = Accommodation.new
-
     @accommodation.name = params[:name]
     @accommodation.address = params[:address]
     @accommodation.image = params[:image]
     @accommodation.cost_per_night = params[:cost_per_night]
     @accommodation.user_id = params[:user_id]
-
     save_status = @accommodation.save
 
+	@photo = Photo.new
+    @photo.caption = params[:caption]
+    @photo.user_id = params[:user_id]
+	@photo.accommodation_id = @accommodation.id
+	@photo.save
+	
     if save_status == true
       referer = URI(request.referer).path
 
