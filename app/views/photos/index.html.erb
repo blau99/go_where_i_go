@@ -25,8 +25,15 @@
       <% @photos.each do |photo| %>
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <%= photo.caption %>
+          <% if photo.restaurant.present? %>
+          <%= photo.restaurant.name %>
+          <% elsif photo.accommodation.present? %>
+          <%= photo.accommodation.name %>
+          <% else %>
+          <%= photo.point_of_interest.name %>
+          <% end %>
         </div>
+
         <div class="panel-body">
           <% if photo.restaurant.present? %>
           <img class="img-responsive" src="<%= photo.restaurant.image %>" length="380" width="380" />
