@@ -22,89 +22,105 @@
 <div class="row">
   <div class="col-md-8">
     <div class="panel panel-default">
-        <% @photos.each do |photo| %>
-          <div class="panel panel-primary">
-              <div class="panel-heading">
-                <%= photo.user.username %>    <%= time_ago_in_words(photo.created_at) %> ago
-			  </div>
-              <div class="panel-body">
-                <% if photo.restaurant.present? %>
-                     <img class="img-responsive" src="<%= photo.restaurant.image %>" length="480" width="480" />
-                <% end %>
-                <% if photo.accommodation.present? %>
-                     <img class="img-responsive" src="<%= photo.accommodation.image %>" length="480" width="480" />
-                <% end %>
-                <% if photo.point_of_interest.present? %>
-                     <img class="img-responsive" src="<%= photo.point_of_interest.image %>" length="480" width="480" />
-                <% end %>
-                <p>
-                  <form action="/create_like" method="post">
-                    <!-- Hidden input for authenticity token to protect from forgery -->
-                    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-                    <input type="hidden" name="photo_id" value="<%= photo.id %>" >
-                    <% User.all.each do |u| %>
-                      <% if u == current_user %>
-                        <input type="hidden" name="user_id" value="<%= u.id %>" >
-                      <% end %>
+      <% @photos.each do |photo| %>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <%= photo.caption %>
+        </div>
+        <div class="panel-body">
+          <% if photo.restaurant.present? %>
+          <img class="img-responsive" src="<%= photo.restaurant.image %>" length="380" width="380" />
+          <% end %>
+          <% if photo.accommodation.present? %>
+          <img class="img-responsive" src="<%= photo.accommodation.image %>" length="380" width="380" />
+          <% end %>
+          <% if photo.point_of_interest.present? %>
+          <img class="img-responsive" src="<%= photo.point_of_interest.image %>" length="380" width="380" />
+          <% end %>
+          <p>
+            <form action="/create_like" method="post">
+              <!-- Hidden input for authenticity token to protect from forgery -->
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+              <input type="hidden" name="photo_id" value="<%= photo.id %>" >
+
+              <% User.all.each do |u| %>
+              <% if u == current_user %>
+              <input type="hidden" name="user_id" value="<%= u.id %>" >
+              <% end %>
+              <% end %>
+
+              <% found = false
+              isDelete = false
+              like_user = ""
+              like_cnt = 0
+              fav_id = 0
+              Favorite.all.each do |fav|
+                if fav.restaurant == photo.restaurant ||
+                  fav.accommodation == photo.accommodation ||
+                  fav.point_of_interest == photo.point_of_interest
+                  found = true
+                  like_cnt += 1
+                  if fav.user == current_user
+                    if fav.restaurant == photo.restaurant && photo.restaurant != nil %>
+                    <input type="hidden" name="restaurant_id" value="<%= photo.restaurant.id %>" >
+                    <% end
+                    if fav.accommodation == photo.accommodation && photo.accommodation != nil %>
+                    <input type="hidden" name="accommodation_id" value="<%= photo.accommodation.id %>" >
+                    <% end
+                    if fav.point_of_interest == photo.point_of_interest && photo.point_of_interest != nil  %>
+                    <input type="hidden" name="point_of_interest_id" value="<%= photo.point_of_interest.id %>" >
                     <% end %>
-
-                    <% found = false
-                    isDelete = false
-                    like_user = ""
-                    like_cnt = 0
-                    Favorite.all.each do |fav|
-                      if fav.restaurant == photo.restaurant ||
-                        fav.accommodation == photo.accommodation ||
-                        fav.points_of_interest == photo.points_of_interest
-                        found = true
-                        like_cnt += 1
-                        if fav.user == current_user %>
-                        <a href="/delete_like/<%= fav.id %>" class="btn btn-link">
-                          <i class="fa fa-heart"></i>
-                        </a>
-                        <% isDelete = true
-                      end
-                      like_user = like_user + fav.user.username + ","
-                    end
+                    <input type="hidden" name="user_id" value="<%= current_user.id %>" >
+                    <% isDelete = true
+                    fav_id = fav.id
                   end
+                  like_user = like_user + fav.user.username + ","
+                end
+              end
 
-                  if found == false %>
-                  <button class="btn btn-link">
-                    <i class="fa fa-heart-o"></i>
-                  </button>
-                  <small class="text-muted">be the first to like this</small>
-                  <% end
-
-                  if isDelete == false %>
-                  <button class="btn btn-link">
-                    <i class="fa fa-heart-o"></i>
-                  </button>
-                  <% end %>
-                  <% like_user = like_user.split(",")
-                  like_user = like_user.to_sentence %>
-                  <%= like_user %> like this
-				  <% if photo.user == current_user %>
-				    <div>
-				      <small class="text-muted col-md-6"><%= photo.caption %></small>
-					  <span class="col-md-6">
-					    <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
-					    <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
-					    <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
-					  </span>
-				    </div>
-				  <% else %>
-				    <div>
-				      <small class="text-muted col-md-6"><%= photo.caption %></small>
-					  <span class="col-md-6">
-					    <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
-					  </span>
-				    </div>
-				  <% end %>
-                </form>
-              </p>
-            </div>
-          </div>
-        <% end %>
+              if found == false %>
+              <button class="btn btn-link">
+                <i class="fa fa-heart-o"></i>
+              </button>
+              <small class="text-muted">be the first to like this</small>
+              <% else
+              if isDelete == false %>
+              <button class="btn btn-link">
+                <i class="fa fa-heart-o"></i>
+              </button>
+              <% else %>
+              <a href="/delete_favorite/<%= fav_id %>" class="btn btn-link">
+                <i class="fa fa-heart"></i>
+              </a>
+              <% end %>
+              <% like_user = like_user.split(",")
+              like_user = like_user.to_sentence %>
+              <%= like_user %> like this
+              <% end %>
+              <% if photo.user == current_user %>
+              <div>
+                <small class="text-muted col-md-6"><%= photo.caption %></small>
+                <span class="col-md-6">
+                  <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
+                  <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
+                  <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+                </span>
+              </div>
+              <% else %>
+              <div>
+                <small class="text-muted col-md-6">
+                  <%= photo.user.username %>    <%= time_ago_in_words(photo.created_at) %> ago
+                </small>
+                <span class="col-md-6">
+                  <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
+                </span>
+              </div>
+              <% end %>
+            </form>
+          </p>
+        </div>
+      </div>
+      <% end %>
     </div>
   </div>
 </div>

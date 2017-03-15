@@ -1,11 +1,11 @@
 <!-- Validation failure messages -->
 <% if @restaurant.errors.any? %>
-  <% @restaurant.errors.full_messages.each do |message| %>
-    <div class="alert alert-dismissable alert-danger">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <%= message %>
-    </div>
-  <% end %>
+<% @restaurant.errors.full_messages.each do |message| %>
+<div class="alert alert-dismissable alert-danger">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <%= message %>
+</div>
+<% end %>
 <% end %>
 
 <div class="page-header">
@@ -36,7 +36,7 @@
         <input type="text" id="address" name="address" placeholder="Address" class="form-control" value="<%= @restaurant.address %>">
       </div>
 
-	  <!-- Label and input for caption -->
+      <!-- Label and input for caption -->
       <div class="form-group">
         <label for="caption" class="control-label">
           Caption
@@ -51,8 +51,8 @@
           Image
         </label>
 
-        <!--<input type="file" id="image" name="image" class="form-control">-->
-		<input type="text" id="image" name="image" placeholder="Image" class="form-control" value="<%= @restaurant.image %>">
+        <input type="file" id="image" name="image" class="form-control">
+
       </div>
 
       <!-- Label and input for user_id -->

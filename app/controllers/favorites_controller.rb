@@ -42,6 +42,30 @@ class FavoritesController < ApplicationController
     end
   end
 
+  def create_like
+    @favorite = Favorite.new
+
+    @favorite.restaurant_id = params[:restaurant_id]
+    @favorite.accommodation_id = params[:accommodation_id]
+    @favorite.point_of_interest_id = params[:point_of_interest_id]
+    @favorite.user_id = params[:user_id]
+
+    save_status = @favorite.save
+
+    if save_status == true
+      referer = URI(request.referer).path
+
+      case referer
+      when "/favorites/new", "/create_favorite"
+        redirect_to("/favorites")
+      else
+        redirect_back(:fallback_location => "/", :notice => "Favorite created successfully.")
+      end
+    else
+      render("favorites/new.html.erb")
+    end
+  end
+
   def edit
     @favorite = Favorite.find(params[:id])
 

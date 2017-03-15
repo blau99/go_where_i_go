@@ -18,7 +18,7 @@ class Accommodation < ApplicationRecord
       end
     end
   end
-  #mount_uploader :image, ImageUploader
+  mount_uploader :image, ImageUploader
 
   # Direct associations
 

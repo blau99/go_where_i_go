@@ -112,6 +112,7 @@ Rails.application.routes.draw do
   # CREATE
   get "/favorites/new", :controller => "favorites", :action => "new"
   post "/create_favorite", :controller => "favorites", :action => "create"
+  post "/create_like", :controller => "favorites", :action => "create_like"
 
   # READ
   get "/favorites", :controller => "favorites", :action => "index"
