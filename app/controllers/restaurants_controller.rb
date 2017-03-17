@@ -72,20 +72,12 @@ class RestaurantsController < ApplicationController
     @restaurant.image = params[:image]
     @restaurant.user_id = params[:user_id]
 
-    save_status = @restaurant.save
-
-    if save_status == true
-      referer = URI(request.referer).path
-
-      case referer
-      when "/restaurants/#{@restaurant.id}/edit", "/update_restaurant"
-        redirect_to("/restaurants/#{@restaurant.id}", :notice => "Restaurant updated successfully.")
-      else
-        redirect_back(:fallback_location => "/", :notice => "Restaurant updated successfully.")
-      end
-    else
-      render("restaurants/edit.html.erb")
-    end
+    if @restaurant.save
+     redirect_to "/photos", :notice => "Restaurant updated successfully."
+   else
+     render 'edit'
+   end
+ end
   end
 
   def destroy

@@ -73,20 +73,12 @@ class AccommodationsController < ApplicationController
     @accommodation.cost_per_night = params[:cost_per_night]
     @accommodation.user_id = params[:user_id]
 
-    save_status = @accommodation.save
-
-    if save_status == true
-      referer = URI(request.referer).path
-
-      case referer
-      when "/accommodations/#{@accommodation.id}/edit", "/update_accommodation"
-        redirect_to("/accommodations/#{@accommodation.id}", :notice => "Accommodation updated successfully.")
-      else
-        redirect_back(:fallback_location => "/", :notice => "Accommodation updated successfully.")
-      end
-    else
-      render("accommodations/edit.html.erb")
-    end
+    if @accommodation.save
+     redirect_to "/photos", :notice => "Accommodation updated successfully."
+   else
+     render 'edit'
+   end
+ end
   end
 
   def destroy
