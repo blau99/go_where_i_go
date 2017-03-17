@@ -26,6 +26,7 @@ class User < ApplicationRecord
   has_many :friend_requests_where_recipient, :class_name => "FriendRequest", :foreign_key => "recipient_id", :dependent => :destroy
   has_many :friends_where_recipient, :through => :friend_requests_where_recipient, :source => :sender
 
+  has_many :timeline_photos, :through => :friends_where_sender, :source => :accommodations
 
   validates :username, :presence => true, :uniqueness => true
   # Include default devise modules. Others available are:

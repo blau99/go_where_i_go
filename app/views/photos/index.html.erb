@@ -22,13 +22,7 @@
 <div class="row">
   <div class="col-md-8">
     <div class="panel panel-default">
-      <% photo_arr = []
-      @photos.each do |p|
-        if current_user.friends_where_sender.present?
-          photo_arr.push(p)
-        end
-
-      end
+      <%
 
       photo_arr = @photos.sort_by { |k| k.created_at }.reverse
       photo_arr.each do |photo| %>
@@ -56,7 +50,9 @@
           <% if photo.point_of_interest.present? %>
           <img class="img-responsive" src="<%= photo.point_of_interest.image %>" length="380" width="380" />
           <% end %>
-          <%= photo.caption %>
+
+				  <%= photo.caption %>
+
 
           <p>
             <form action="/create_like" method="post">
