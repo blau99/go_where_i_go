@@ -115,11 +115,7 @@
             <% end %>
             <% like_user = like_user.split(",")
             like_user = like_user.to_sentence %>
-            <% if current_user %>
-            You favorited this
-            <% else %>
             <%= like_user %> favorited this
-            <% end %>
             <% else
             if photo.restaurant != nil %>
             <input type="hidden" name="restaurant_id" value="<%= photo.restaurant.id %>" >

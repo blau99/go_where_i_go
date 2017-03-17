@@ -1,6 +1,6 @@
 <div class="page-header">
   <h1>
-    Favorites
+    My Favorites
   </h1>
 </div><div class="row mb-1">
   <div class="col-md-12">
@@ -84,11 +84,10 @@
         <th>Restaurant</th>
         <th>Accommodation</th>
         <th>Point of interest</th>
-        <th>User</th>
         <th>Actions</th>
       </tr>
 
-      <% @favorites.each do |favorite| %>
+      <% current_user.favorites.each do |favorite| %>
       <tr>
         <td>
           <% if favorite.restaurant.present? %>
@@ -111,13 +110,7 @@
             </a>
           <% end %>
         </td>
-        <td>
-          <% if favorite.user.present? %>
-            <a href="/users/<%= favorite.user.id %>">
-              <%= favorite.user.email %>
-            </a>
-          <% end %>
-        </td>
+
         <td>
           <a href="/favorites/<%= favorite.id %>" class="btn btn-primary">Show</a>
           <a href="/favorites/<%= favorite.id %>/edit" class="btn btn-warning">Edit</a>

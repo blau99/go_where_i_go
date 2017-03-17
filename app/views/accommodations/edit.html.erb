@@ -9,7 +9,7 @@
 <% end %>
 
 <div class="page-header">
-  <h3>Edit Accommodation #<%= @accommodation.id %></h3>
+  <h3>Edit <%= @accommodation.name %></h3>
 </div>
 
 <div class="row">
@@ -55,8 +55,8 @@
         <input type="text" id="cost_per_night" name="cost_per_night" placeholder="Cost per night" class="form-control" value="<%= @accommodation.cost_per_night %>">
       </div>
 
-      
-      
+
+
 
       <button class="btn btn-warning">
         Update Accommodation
