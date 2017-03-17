@@ -74,11 +74,10 @@ class AccommodationsController < ApplicationController
     @accommodation.user_id = params[:user_id]
 
     if @accommodation.save
-     redirect_to "/photos", :notice => "Accommodation updated successfully."
-   else
-     render 'edit'
-   end
- end
+      redirect_to "/photos", :notice => "Accommodation updated successfully."
+    else
+      render 'edit'
+    end    
   end
 
   def destroy

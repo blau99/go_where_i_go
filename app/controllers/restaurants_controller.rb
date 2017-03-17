@@ -24,7 +24,6 @@ class RestaurantsController < ApplicationController
   def show
     @favorite = Favorite.new
     @photo = Photo.new
-    @best_dish = BestDish.new
     @restaurant = Restaurant.find(params[:id])
 
     render("restaurants/show.html.erb")
@@ -41,6 +40,7 @@ class RestaurantsController < ApplicationController
     @restaurant = Restaurant.new
     @restaurant.name = params[:name]
     @restaurant.address = params[:address]
+    @restaurant.price_range = params[:price_range]
     @restaurant.image = params[:image]
     @restaurant.user_id = params[:user_id]
     save_status = @restaurant.save
@@ -69,15 +69,15 @@ class RestaurantsController < ApplicationController
 
     @restaurant.name = params[:name]
     @restaurant.address = params[:address]
+    @restaurant.price_range = params[:price_range]
     @restaurant.image = params[:image]
     @restaurant.user_id = params[:user_id]
 
     if @restaurant.save
-     redirect_to "/photos", :notice => "Restaurant updated successfully."
-   else
-     render 'edit'
-   end
- end
+      redirect_to "/photos", :notice => "Restaurant updated successfully."
+    else
+      render 'edit'
+    end
   end
 
   def destroy

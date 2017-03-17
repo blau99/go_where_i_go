@@ -41,8 +41,8 @@
           <%= photo.point_of_interest.name %>
           <% end %>
         </div>
-        <small class="text-muted col-md-3">
-          <%= link_to photo.user.username, "/users/#{photo.user.id}" %>    <%= time_ago_in_words(photo.created_at) %> ago
+        <small class="text-muted col-md-3; img-responsive">
+          &nbsp;<%= link_to photo.user.username, "/users/#{photo.user.id}" %>    <%= time_ago_in_words(photo.created_at) %> ago
         </small>
         <div class="panel-body">
           <br>
@@ -56,7 +56,7 @@
           <img class="img-responsive" src="<%= photo.point_of_interest.image %>" length="380" width="380" />
           <% end %>
           <%= photo.caption %>
-          
+
           <p>
             <form action="/create_like" method="post">
               <!-- Hidden input for authenticity token to protect from forgery -->
