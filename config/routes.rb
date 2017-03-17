@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   root :to => "photos#index"
+
   # Routes for the Friend_request resource:
   # CREATE
   get "/friend_requests/new", :controller => "friend_requests", :action => "new"
@@ -52,19 +53,28 @@ Rails.application.routes.draw do
   # DELETE
   get "/delete_best_dish/:id", :controller => "best_dishes", :action => "destroy"
   #------------------------------
-  devise_for :users
-  root "photos#index"
 
-  get "/my_timeline", :controller => "photos", :action => "my_timeline"
+  # Routes for the User resource:
+  devise_for :users
+
+  # READ
+  get "/users", :controller => "users", :action => "index"
+  get "/users/:id", :controller => "users", :action => "show"
+
+  #root "photos#index"
+  #get "/my_timeline", :controller => "photos", :action => "my_timeline"
 
   # Routes for the Photo resource:
+  # My Wall
+  get "/my_wall", :controller => "photos", :action => "my_wall"
+
   # CREATE
   get "/photos/new", :controller => "photos", :action => "new"
   post "/create_photo", :controller => "photos", :action => "create"
 
   # READ
   get "/photos", :controller => "photos", :action => "index"
-  get "/photos/:id", :controller => "photos", :action => "show"
+  #get "/photos/:id", :controller => "photos", :action => "show"
 
   # UPDATE
   get "/photos/:id/edit", :controller => "photos", :action => "edit"
@@ -125,12 +135,6 @@ Rails.application.routes.draw do
   # DELETE
   get "/delete_favorite/:id", :controller => "favorites", :action => "destroy"
   #------------------------------
-
-  # Routes for the User resource:
-  # READ
-  get "/users", :controller => "users", :action => "index"
-  get "/users/:id", :controller => "users", :action => "show"
-
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -31,7 +31,7 @@ class AccommodationsController < ApplicationController
 
   def new
     @accommodation = Accommodation.new
-	@photo = Photo.new
+    @photo = Photo.new
 
     render("accommodations/new.html.erb")
   end
@@ -45,23 +45,16 @@ class AccommodationsController < ApplicationController
     @accommodation.user_id = params[:user_id]
     save_status = @accommodation.save
 
-	@photo = Photo.new
+    @photo = Photo.new
     @photo.caption = params[:caption]
     @photo.user_id = params[:user_id]
-	@photo.accommodation_id = @accommodation.id
-	@photo.save
-	
-    if save_status == true
-      referer = URI(request.referer).path
+    @photo.accommodation_id = @accommodation.id
+    @photo.save
 
-      case referer
-      when "/accommodations/new", "/create_accommodation"
-        redirect_to("/accommodations")
-      else
-        redirect_back(:fallback_location => "/", :notice => "Accommodation created successfully.")
-      end
+    if save_status
+      redirect_to "/photos", :notice => "Accommodation created successfully."
     else
-      render("accommodations/new.html.erb")
+      render 'new'
     end
   end
 

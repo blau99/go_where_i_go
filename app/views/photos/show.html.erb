@@ -8,36 +8,36 @@
       <dt>Restaurant</dt>
       <dd>
         <% if @photo.restaurant.present? %>
-          <a href="/restaurants/<%= @photo.restaurant_id %>">
-            <%= @photo.restaurant.name %>
-          </a>
+        <a href="/restaurants/<%= @photo.restaurant_id %>">
+          <%= @photo.restaurant.name %>
+        </a>
         <% end %>
       </dd>
 
       <dt>Accommodation</dt>
       <dd>
         <% if @photo.accommodation.present? %>
-          <a href="/accommodations/<%= @photo.accommodation_id %>">
-            <%= @photo.accommodation.name %>
-          </a>
+        <a href="/accommodations/<%= @photo.accommodation_id %>">
+          <%= @photo.accommodation.name %>
+        </a>
         <% end %>
       </dd>
 
       <dt>Point of interest</dt>
       <dd>
         <% if @photo.point_of_interest.present? %>
-          <a href="/points_of_interests/<%= @photo.point_of_interest_id %>">
-            <%= @photo.point_of_interest.name %>
-          </a>
+        <a href="/points_of_interests/<%= @photo.point_of_interest_id %>">
+          <%= @photo.point_of_interest.name %>
+        </a>
         <% end %>
       </dd>
 
       <dt>User</dt>
       <dd>
         <% if @photo.user.present? %>
-          <a href="/users/<%= @photo.user_id %>">
-            <%= @photo.user.email %>
-          </a>
+        <a href="/users/<%= @photo.user_id %>">
+          <%= @photo.user.email %>
+        </a>
         <% end %>
       </dd>
 
@@ -51,12 +51,12 @@
         Back
       </a>
       <% if current_user == @photo.user %>
-        <a href="/photos/<%= @photo.id %>/edit" class="btn btn-warning">
-          Edit
-        </a>
-        <a href="/delete_photo/<%= @photo.id %>" class="btn btn-danger" rel="nofollow">
-          Delete
-        </a>
+      <a href="/photos/<%= @photo.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_photo/<%= @photo.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
       <% end %>
     </div>
   </div>

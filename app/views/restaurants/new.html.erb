@@ -36,6 +36,15 @@
         <input type="text" id="address" name="address" placeholder="Address" class="form-control" value="<%= @restaurant.address %>">
       </div>
 
+      <!-- Label and input for price range -->
+      <div class="form-group">
+        <label for="price_range" class="control-label">
+          Price Range ($, $$, $$$, $$$$)
+        </label>
+
+        <input type="text" id="price_range" name="price_range" placeholder="Price Range" class="form-control" value="<%= @restaurant.price_range %>">
+      </div>
+
       <!-- Label and input for caption -->
       <div class="form-group">
         <label for="caption" class="control-label">

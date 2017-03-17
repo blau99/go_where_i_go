@@ -24,13 +24,12 @@
     <div class="panel panel-default">
       <% photo_arr = []
       @photos.each do |p|
-        if current_user.friends_where_sender.present?
+        if p.user == current_user
           photo_arr.push(p)
         end
-
       end
 
-      photo_arr = @photos.sort_by { |k| k.created_at }.reverse
+      photo_arr = photo_arr.sort_by { |k| k.created_at }.reverse
       photo_arr.each do |photo| %>
       <div class="panel panel-info">
         <div class="panel-heading">
@@ -43,7 +42,7 @@
           <% end %>
         </div>
         <small class="text-muted col-md-3">
-          <%= link_to photo.user.username, "/users/#{photo.user.id}" %>   <%= time_ago_in_words(photo.created_at) %> ago
+          <%= link_to photo.user.username, "/users/#{photo.user.id}" %>    <%= time_ago_in_words(photo.created_at) %> ago
         </small>
         <div class="panel-body">
           <br>
@@ -57,7 +56,7 @@
           <img class="img-responsive" src="<%= photo.point_of_interest.image %>" length="380" width="380" />
           <% end %>
           <%= photo.caption %>
-
+          
           <p>
             <form action="/create_like" method="post">
               <!-- Hidden input for authenticity token to protect from forgery -->
@@ -143,6 +142,7 @@
 
         <% if photo.user == current_user %>
         <div>
+
           <span class="col-md-6">
             <% if photo.restaurant != nil %>
             <a href="/restaurants/<%= photo.restaurant.id %>" class="btn btn-primary">Show</a>
@@ -151,7 +151,7 @@
             <a href="/accommodations/<%= photo.accommodation.id %>" class="btn btn-primary">Show</a>
             <% end
             if photo.point_of_interest != nil  %>
-            <a href="/points_of_interests/<%= photo.point_of_interest.id %>" class="btn btn-primary">Show</a>
+            <a href="/points_of_interest/<%= photo.point_of_interest.id %>" class="btn btn-primary">Show</a>
             <% end %>
             <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
             <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
@@ -160,6 +160,9 @@
         <% else %>
         <div>
 
+          <small class="text-muted col-md-3">
+            <%= photo.user.username %>    <%= time_ago_in_words(photo.created_at) %> ago
+          </small>
           <span class="col-md-6">
             <% if photo.restaurant != nil %>
             <a href="/restaurants/<%= photo.restaurant.id %>" class="btn btn-primary">Show</a>

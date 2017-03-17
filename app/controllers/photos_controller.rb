@@ -1,10 +1,12 @@
 class PhotosController < ApplicationController
   def index
     @photos = Photo.all
+    @friend_request = FriendRequest.all
   end
 
   def show
     @photo = Photo.find(params[:id])
+    @friend_request = FriendRequest.all
   end
 
   def new
@@ -46,5 +48,11 @@ class PhotosController < ApplicationController
     @photo.destroy
 
     redirect_to "/photos", :notice => "Photo deleted."
+  end
+
+  def my_wall
+    @photos = Photo.all
+
+    render 'my_wall'
   end
 end

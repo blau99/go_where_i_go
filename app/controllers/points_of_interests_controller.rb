@@ -1,13 +1,13 @@
 class PointsOfInterestsController < ApplicationController
   before_action :current_user_must_be_points_of_interest_user, :only => [:edit, :update, :destroy]
 
-  # def current_user_must_be_points_of_interest_user
-  #   points_of_interest = PointsOfInterest.find(params[:id])
-  #
-  #   unless current_user == points_of_interest.user
-  #     redirect_to :back, :alert => "You are not authorized for that."
-  #   end
-  # end
+  def current_user_must_be_points_of_interest_user
+    points_of_interest = PointsOfInterest.find(params[:id])
+
+    unless current_user == points_of_interest.user
+      redirect_to :back, :alert => "You are not authorized for that."
+    end
+  end
 
   def index
     @q = PointsOfInterest.ransack(params[:q])
@@ -16,6 +16,7 @@ class PointsOfInterestsController < ApplicationController
       marker.lat points_of_interest.address_latitude
       marker.lng points_of_interest.address_longitude
       marker.infowindow "<h5><a href='/points_of_interests/#{points_of_interest.id}'>#{points_of_interest.name}</a></h5><small>#{points_of_interest.address_formatted_address}</small>"
+
     end
 
     render("points_of_interests/index.html.erb")
@@ -31,7 +32,7 @@ class PointsOfInterestsController < ApplicationController
 
   def new
     @points_of_interest = PointsOfInterest.new
-	@photo = Photo.new
+    @photo = Photo.new
 
     render("points_of_interests/new.html.erb")
   end
@@ -43,14 +44,14 @@ class PointsOfInterestsController < ApplicationController
     @points_of_interest.admission_fee = params[:admission_fee]
     @points_of_interest.image = params[:image]
     @points_of_interest.user_id = current_user.id
-	save_status = @points_of_interest.save
+    save_status = @points_of_interest.save
 
-	@photo = Photo.new
+    @photo = Photo.new
     @photo.caption = params[:caption]
     @photo.user_id = params[:user_id]
-	@photo.point_of_interest_id = @points_of_interest.id
-	@photo.save
-	
+    @photo.point_of_interest_id = @points_of_interest.id
+    @photo.save
+
     if save_status
       redirect_to "/photos", :notice => "Point of Interest created successfully."
     else

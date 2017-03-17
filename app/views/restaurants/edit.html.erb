@@ -1,11 +1,11 @@
 <!-- Validation failure messages -->
 <% if @restaurant.errors.any? %>
-  <% @restaurant.errors.full_messages.each do |message| %>
-    <div class="alert alert-dismissable alert-danger">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <%= message %>
-    </div>
-  <% end %>
+<% @restaurant.errors.full_messages.each do |message| %>
+<div class="alert alert-dismissable alert-danger">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <%= message %>
+</div>
+<% end %>
 <% end %>
 
 <div class="page-header">
@@ -36,6 +36,15 @@
         <input type="text" id="address" name="address" placeholder="Address" class="form-control" value="<%= @restaurant.address %>">
       </div>
 
+      <!-- Label and input for price range -->
+      <div class="form-group">
+        <label for="price_range" class="control-label">
+          Price Range ($, $$, $$$, $$$$)
+        </label>
+
+        <input type="text" id="price_range" name="price_range" placeholder="Price Range" class="form-control" value="<%= @restaurant.price_range %>">
+      </div>
+
       <!-- Label and input for image -->
       <div class="form-group">
         <label for="image" class="control-label">
@@ -46,8 +55,8 @@
         <input type="file" id="image" name="image" class="form-control">
       </div>
 
-      
-      
+
+
 
       <button class="btn btn-warning">
         Update Restaurant

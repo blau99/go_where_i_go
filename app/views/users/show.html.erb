@@ -71,6 +71,337 @@
     <hr>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <% photo_arr = []
+      @photos.each do |p|
+        if p.user == current_user
+          photo_arr.push(p)
+        end
+      end
+
+      photo_arr = photo_arr.sort_by { |k| k.created_at }.reverse
+      photo_arr.each do |photo| %>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <% if photo.restaurant.present? %>
+          <%= photo.restaurant.name %>
+          <% elsif photo.accommodation.present? %>
+          <%= photo.accommodation.name %>
+          <% else %>
+          <%= photo.point_of_interest.name %>
+          <% end %>
+        </div>
+
+        <div class="panel-body">
+          <% if photo.restaurant.present? %>
+          <img class="img-responsive" src="<%= photo.restaurant.image %>" length="380" width="380" />
+          <% end %>
+          <% if photo.accommodation.present? %>
+          <img class="img-responsive" src="<%= photo.accommodation.image %>" length="380" width="380" />
+          <% end %>
+          <% if photo.point_of_interest.present? %>
+          <img class="img-responsive" src="<%= photo.point_of_interest.image %>" length="380" width="380" />
+          <% end %>
+          <p>
+            <form action="/create_like" method="post">
+              <!-- Hidden input for authenticity token to protect from forgery -->
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+              <input type="hidden" name="photo_id" value="<%= photo.id %>" >
+
+              <% User.all.each do |u| %>
+              <% if u == current_user %>
+              <input type="hidden" name="user_id" value="<%= u.id %>" >
+              <% end %>
+              <% end %>
+
+              <% found = false
+              isDelete = false
+              like_user = ""
+              like_cnt = 0
+              fav_id = 0
+              Favorite.all.each do |fav|
+                if fav.restaurant == photo.restaurant ||
+                  fav.accommodation == photo.accommodation ||
+                  fav.point_of_interest == photo.point_of_interest
+                  found = true
+                  like_cnt += 1
+
+                  if fav.restaurant == photo.restaurant && photo.restaurant != nil %>
+                  <input type="hidden" name="restaurant_id" value="<%= photo.restaurant.id %>" >
+                  <% else
+                  if fav.accommodation == photo.accommodation && photo.accommodation != nil %>
+                  <input type="hidden" name="accommodation_id" value="<%= photo.accommodation.id %>" >
+                  <% else
+                  if fav.point_of_interest == photo.point_of_interest && photo.point_of_interest != nil  %>
+                  <input type="hidden" name="point_of_interest_id" value="<%= photo.point_of_interest.id %>" >
+                  <% end
+                end
+              end
+
+              if fav.user == current_user %>
+              <input type="hidden" name="user_id" value="<%= current_user.id %>" >
+              <% isDelete = true
+              fav_id = fav.id
+            else %>
+            <input type="hidden" name="user_id" value="<%= fav.user.id %>" >
+            <% end
+
+            like_user = like_user + fav.user.username + ","
+          end
+        end
+
+        if found == false
+          if photo.restaurant != nil %>
+          <input type="hidden" name="restaurant_id" value="<%= photo.restaurant.id %>" >
+          <% else
+          if photo.accommodation != nil %>
+          <input type="hidden" name="accommodation_id" value="<%= photo.accommodation.id %>" >
+          <% else
+          if photo.point_of_interest != nil  %>
+          <input type="hidden" name="point_of_interest_id" value="<%= photo.point_of_interest.id %>" >
+          <% end
+        end
+      end %>
+      <input type="hidden" name="user_id" value="<%= current_user.id %>" >
+
+      <button class="btn btn-link">
+        <i class="fa fa-heart-o"></i>
+      </button>
+      <small class="text-muted">be the first to favorite this</small>
+      <% else
+      if isDelete == false %>
+      <button class="btn btn-link">
+        <i class="fa fa-heart-o"></i>
+      </button>
+      <% else %>
+      <a href="/delete_favorite/<%= fav_id %>" class="btn btn-link">
+        <i class="fa fa-heart"></i>
+      </a>
+      <% end %>
+      <% like_user = like_user.split(",")
+      like_user = like_user.to_sentence %>
+      <%= like_user %> like this
+      <% end %>
+
+      <% if photo.user == current_user %>
+      <div>
+        <small class="text-muted col-md-3">
+          <%= photo.caption %>
+        </small>
+        <small class="text-muted col-md-3">
+          <%= photo.user.username %>    <%= time_ago_in_words(photo.created_at) %> ago
+        </small>
+        <span class="col-md-6">
+          <% if photo.restaurant != nil %>
+          <a href="/restaurants/<%= photo.restaurant.id %>" class="btn btn-primary">Show</a>
+          <% end
+          if photo.accommodation != nil %>
+          <a href="/accommodations/<%= photo.accommodation.id %>" class="btn btn-primary">Show</a>
+          <% end
+          if photo.point_of_interest != nil  %>
+          <a href="/points_of_interest/<%= photo.point_of_interest.id %>" class="btn btn-primary">Show</a>
+          <% end %>
+          <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </span>
+      </div>
+      <% else %>
+      <div>
+        <small class="text-muted col-md-3">
+          <%= photo.caption %>
+        </small>
+        <small class="text-muted col-md-3">
+          <%= photo.user.username %>    <%= time_ago_in_words(photo.created_at) %> ago
+        </small>
+        <span class="col-md-6">
+          <% if photo.restaurant != nil %>
+          <a href="/restaurants/<%= photo.restaurant.id %>" class="btn btn-primary">Show</a>
+          <% end
+          if photo.accommodation != nil %>
+          <a href="/accommodations/<%= photo.accommodation.id %>" class="btn btn-primary">Show</a>
+          <% end
+          if photo.point_of_interest != nil  %>
+          <a href="/points_of_interest/<%= photo.point_of_interest.id %>" class="btn btn-primary">Show</a>
+          <% end %>
+        </span>
+      </div>
+      <% end %>
+    </form>
+  </p>
+</div>
+</div>
+<% end %>
+</div>
+</div>
+</div>
 <% end %>
 
-<%= render @user.photos %>
+<% else %>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <% photo_arr = []
+      @photos.each do |p|
+        if p.user_id == @user.id
+          photo_arr.push(p)
+        end
+      end
+
+      photo_arr = photo_arr.sort_by { |k| k.created_at }.reverse
+      photo_arr.each do |photo| %>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <% if photo.restaurant.present? %>
+          <%= photo.restaurant.name %>
+          <% elsif photo.accommodation.present? %>
+          <%= photo.accommodation.name %>
+          <% else %>
+          <%= photo.point_of_interest.name %>
+          <% end %>
+        </div>
+
+        <div class="panel-body">
+          <% if photo.restaurant.present? %>
+          <img class="img-responsive" src="<%= photo.restaurant.image %>" length="380" width="380" />
+          <% end %>
+          <% if photo.accommodation.present? %>
+          <img class="img-responsive" src="<%= photo.accommodation.image %>" length="380" width="380" />
+          <% end %>
+          <% if photo.point_of_interest.present? %>
+          <img class="img-responsive" src="<%= photo.point_of_interest.image %>" length="380" width="380" />
+          <% end %>
+          <p>
+            <form action="/create_like" method="post">
+              <!-- Hidden input for authenticity token to protect from forgery -->
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+              <input type="hidden" name="photo_id" value="<%= photo.id %>" >
+
+              <% User.all.each do |u| %>
+              <% if u == current_user %>
+              <input type="hidden" name="user_id" value="<%= u.id %>" >
+              <% end %>
+              <% end %>
+
+              <% found = false
+              isDelete = false
+              like_user = ""
+              like_cnt = 0
+              fav_id = 0
+              Favorite.all.each do |fav|
+                if fav.restaurant == photo.restaurant ||
+                  fav.accommodation == photo.accommodation ||
+                  fav.point_of_interest == photo.point_of_interest
+                  found = true
+                  like_cnt += 1
+
+                  if fav.restaurant == photo.restaurant && photo.restaurant != nil %>
+                  <input type="hidden" name="restaurant_id" value="<%= photo.restaurant.id %>" >
+                  <% else
+                  if fav.accommodation == photo.accommodation && photo.accommodation != nil %>
+                  <input type="hidden" name="accommodation_id" value="<%= photo.accommodation.id %>" >
+                  <% else
+                  if fav.point_of_interest == photo.point_of_interest && photo.point_of_interest != nil  %>
+                  <input type="hidden" name="point_of_interest_id" value="<%= photo.point_of_interest.id %>" >
+                  <% end
+                end
+              end
+
+              if fav.user == current_user %>
+              <input type="hidden" name="user_id" value="<%= current_user.id %>" >
+              <% isDelete = true
+              fav_id = fav.id
+            else %>
+            <input type="hidden" name="user_id" value="<%= fav.user.id %>" >
+            <% end
+
+            like_user = like_user + fav.user.username + ","
+          end
+        end
+
+        if found == false
+          if photo.restaurant != nil %>
+          <input type="hidden" name="restaurant_id" value="<%= photo.restaurant.id %>" >
+          <% else
+          if photo.accommodation != nil %>
+          <input type="hidden" name="accommodation_id" value="<%= photo.accommodation.id %>" >
+          <% else
+          if photo.point_of_interest != nil  %>
+          <input type="hidden" name="point_of_interest_id" value="<%= photo.point_of_interest.id %>" >
+          <% end
+        end
+      end %>
+      <input type="hidden" name="user_id" value="<%= current_user.id %>" >
+
+      <button class="btn btn-link">
+        <i class="fa fa-heart-o"></i>
+      </button>
+      <small class="text-muted">be the first to favorite this</small>
+      <% else
+      if isDelete == false %>
+      <button class="btn btn-link">
+        <i class="fa fa-heart-o"></i>
+      </button>
+      <% else %>
+      <a href="/delete_favorite/<%= fav_id %>" class="btn btn-link">
+        <i class="fa fa-heart"></i>
+      </a>
+      <% end %>
+      <% like_user = like_user.split(",")
+      like_user = like_user.to_sentence %>
+      <%= like_user %> like this
+      <% end %>
+
+      <% if photo.user == current_user %>
+      <div>
+        <small class="text-muted col-md-3">
+          <%= photo.caption %>
+        </small>
+        <small class="text-muted col-md-3">
+          <%= photo.user.username %>    <%= time_ago_in_words(photo.created_at) %> ago
+        </small>
+        <span class="col-md-6">
+          <% if photo.restaurant != nil %>
+          <a href="/restaurants/<%= photo.restaurant.id %>" class="btn btn-primary">Show</a>
+          <% end
+          if photo.accommodation != nil %>
+          <a href="/accommodations/<%= photo.accommodation.id %>" class="btn btn-primary">Show</a>
+          <% end
+          if photo.point_of_interest != nil  %>
+          <a href="/points_of_interest/<%= photo.point_of_interest.id %>" class="btn btn-primary">Show</a>
+          <% end %>
+          <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </span>
+      </div>
+      <% else %>
+      <div>
+        <small class="text-muted col-md-3">
+          <%= photo.caption %>
+        </small>
+        <small class="text-muted col-md-3">
+          <%= photo.user.username %>    <%= time_ago_in_words(photo.created_at) %> ago
+        </small>
+        <span class="col-md-6">
+          <% if photo.restaurant != nil %>
+          <a href="/restaurants/<%= photo.restaurant.id %>" class="btn btn-primary">Show</a>
+          <% end
+          if photo.accommodation != nil %>
+          <a href="/accommodations/<%= photo.accommodation.id %>" class="btn btn-primary">Show</a>
+          <% end
+          if photo.point_of_interest != nil  %>
+          <a href="/points_of_interest/<%= photo.point_of_interest.id %>" class="btn btn-primary">Show</a>
+          <% end %>
+        </span>
+      </div>
+      <% end %>
+    </form>
+  </p>
+</div>
+</div>
+<% end %>
+</div>
+</div>
+</div>

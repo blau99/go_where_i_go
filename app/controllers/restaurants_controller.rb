@@ -32,7 +32,7 @@ class RestaurantsController < ApplicationController
 
   def new
     @restaurant = Restaurant.new
-	@photo = Photo.new
+    @photo = Photo.new
 
     render("restaurants/new.html.erb")
   end
@@ -45,23 +45,16 @@ class RestaurantsController < ApplicationController
     @restaurant.user_id = params[:user_id]
     save_status = @restaurant.save
 
-	@photo = Photo.new
+    @photo = Photo.new
     @photo.caption = params[:caption]
     @photo.user_id = params[:user_id]
-	@photo.restaurant_id = @restaurant.id
-	@photo.save
-	
-    if save_status == true
-      referer = URI(request.referer).path
+    @photo.restaurant_id = @restaurant.id
+    @photo.save
 
-      case referer
-      when "/restaurants/new", "/create_restaurant"
-        redirect_to("/restaurants")
-      else
-        redirect_back(:fallback_location => "/", :notice => "Restaurant created successfully.")
-      end
+    if save_status
+      redirect_to "/photos", :notice => "Restaurant created successfully."
     else
-      render("restaurants/new.html.erb")
+      render 'new'
     end
   end
 

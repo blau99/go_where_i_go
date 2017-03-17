@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313234750) do
+ActiveRecord::Schema.define(version: 20170317043825) do
 
   create_table "accommodations", force: :cascade do |t|
     t.string   "name"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(version: 20170313234750) do
     t.float    "address_latitude"
     t.float    "address_longitude"
     t.string   "address_formatted_address"
+    t.string   "price_range"
   end
 
   create_table "users", force: :cascade do |t|

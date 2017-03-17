@@ -1,32 +1,29 @@
 <div class="page-header">
-  <h3>Restaurant #<%= @restaurant.id %></h3>
+  <h3><%= @restaurant.name %></h3>
+  <dd><% if @restaurant.user.present? %>
+    Posted by <a href="/users/<%= @restaurant.user_id %>">
+      <%= @restaurant.user.username %>
+    </a>
+    <% end %>
+  </dd>
 </div>
+
 
 <div class="row">
   <div class="col-md-12 mb-2">
     <dl class="dl-horizontal">
-      <dt>Name</dt>
-      <dd><%= @restaurant.name %></dd>
-
+      <dd><img src="<%= @restaurant.image %>" class="img-responsive" width="300"></dd>
+      <dt>Price Range</dt>
+      <dd>
+        <%= @restaurant.price_range %>
+      </dd>
       <dt>Address</dt>
       <dd>
-        <div>
-          <div id="location_map" style="height: 480px;"></div>
-        </div>
+        <%= @restaurant.address %>
       </dd>
-
-      <dt>Image</dt>
-      <dd><img src="<%= @restaurant.image %>" class="img-responsive"></dd>
-
-      <dt>User</dt>
-      <dd>
-        <% if @restaurant.user.present? %>
-          <a href="/users/<%= @restaurant.user_id %>">
-            <%= @restaurant.user.email %>
-          </a>
-        <% end %>
-      </dd>
-
+      <div>
+        <div id="location_map" style="height: 300px;"></div>
+      </div>
     </dl>
 
     <div class="btn-group btn-group-justified">
@@ -34,223 +31,32 @@
         Back
       </a>
       <% if current_user == @restaurant.user %>
-        <a href="/restaurants/<%= @restaurant.id %>/edit" class="btn btn-warning">
-          Edit
-        </a>
-        <a href="/delete_restaurant/<%= @restaurant.id %>" class="btn btn-danger" rel="nofollow">
-          Delete
-        </a>
+      <a href="/restaurants/<%= @restaurant.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_restaurant/<%= @restaurant.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
       <% end %>
     </div>
   </div>
 </div>
 
-<!-- A Restaurant has many best_dishes -->
-
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Best Dishes
-      </li>
-
-      <% @restaurant.best_dishes.each do |best_dish| %>
-        <li class="list-group-item">
-          <a href="/best_dishes/<%= best_dish.id %>">
-            <%= best_dish.restaurant_id %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/best_dishes/<%= best_dish.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/best_dishes/<%= best_dish.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_best_dish/<%= best_dish.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
-
-      <li class="list-group-item">
-        <form action="/create_best_dish" method="post">
-      <!-- Hidden input for authenticity token to protect from forgery -->
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-
-      <!-- Label and input for restaurant_id -->
-      <input type="hidden" name="restaurant_id" value="<%= @restaurant.id %>">
-
-      <button class="btn btn-block btn-success">
-        Create Best Dish
-      </button>
-    </form>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<!-- A Restaurant has many photos -->
-
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Photos
-      </li>
-
-      <% @restaurant.photos.each do |photo| %>
-        <li class="list-group-item">
-          <a href="/photos/<%= photo.id %>">
-            <%= photo.restaurant_id %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/photos/<%= photo.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
-
-      <li class="list-group-item">
-        <form action="/create_photo" method="post">
-      <!-- Hidden input for authenticity token to protect from forgery -->
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-
-      <!-- Label and input for restaurant_id -->
-      <input type="hidden" name="restaurant_id" value="<%= @restaurant.id %>">
-
-      <!-- Label and input for accommodation_id -->
-      <div class="form-group">
-        <label for="accommodation_id" class="control-label">
-          Accommodation
-        </label>
-
-        <%= select_tag(:accommodation_id, options_from_collection_for_select(Accommodation.all, :id, :name), :class => "form-control") %>
-      </div>
-
-      <!-- Label and input for point_of_interest_id -->
-      <div class="form-group">
-        <label for="point_of_interest_id" class="control-label">
-          Point of interest
-        </label>
-
-        <%= select_tag(:point_of_interest_id, options_from_collection_for_select(PointsOfInterest.all, :id, :name), :class => "form-control") %>
-      </div>
-
-      <!-- Label and input for user_id -->
-      <input type="hidden" name="user_id" value="<%= current_user.id %>">
-
-      <!-- Label and input for caption -->
-      <div class="form-group">
-        <label for="caption" class="control-label">
-          Caption
-        </label>
-
-        <textarea id="caption" name="caption" placeholder="Caption" class="form-control" rows="3"></textarea>
-      </div>
-
-      <button class="btn btn-block btn-success">
-        Create Photo
-      </button>
-    </form>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<!-- A Restaurant has many favorites -->
-
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Favorites
-      </li>
-
-      <% @restaurant.favorites.each do |favorite| %>
-        <li class="list-group-item">
-          <a href="/favorites/<%= favorite.id %>">
-            <%= favorite.restaurant_id %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/favorites/<%= favorite.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/favorites/<%= favorite.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_favorite/<%= favorite.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
-
-      <li class="list-group-item">
-        <form action="/create_favorite" method="post">
-      <!-- Hidden input for authenticity token to protect from forgery -->
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-
-      <!-- Label and input for restaurant_id -->
-      <input type="hidden" name="restaurant_id" value="<%= @restaurant.id %>">
-
-      <!-- Label and input for accommodation_id -->
-      <div class="form-group">
-        <label for="accommodation_id" class="control-label">
-          Accommodation
-        </label>
-
-        <%= select_tag(:accommodation_id, options_from_collection_for_select(Accommodation.all, :id, :name), :class => "form-control") %>
-      </div>
-
-      <!-- Label and input for point_of_interest_id -->
-      <div class="form-group">
-        <label for="point_of_interest_id" class="control-label">
-          Point of interest
-        </label>
-
-        <%= select_tag(:point_of_interest_id, options_from_collection_for_select(PointsOfInterest.all, :id, :name), :class => "form-control") %>
-      </div>
-
-      <!-- Label and input for user_id -->
-      <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
-
-        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :email), :class => "form-control") %>
-      </div>
-
-      <button class="btn btn-block btn-success">
-        Create Favorite
-      </button>
-    </form>
-      </li>
-    </ul>
-  </div>
-</div>
 
 
 <script src="//maps.google.com/maps/api/js?v=3.24&key=AIzaSyCOTPWiuvyyo6sKoIBzKA4-1ol-vTOIOlM"></script>
 <script src="//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"></script>
 <script>
-  handler = Gmaps.build('Google');
-  handler.buildMap({ provider: {}, internal: {id: 'location_map'}}, function(){
-    markers = handler.addMarkers([
-      {
-        "lat": <%= @restaurant.address_latitude %>,
-        "lng": <%= @restaurant.address_longitude %>,
-        "infowindow": "<h5><%= @restaurant.created_at %></h5><small><%= @restaurant.address_formatted_address %></small>"
-      }
-    ]);
-    handler.bounds.extendWith(markers);
-    handler.fitMapToBounds();
-  });
+handler = Gmaps.build('Google');
+handler.buildMap({ provider: {}, internal: {id: 'location_map'}}, function(){
+  markers = handler.addMarkers([
+    {
+      "lat": <%= @restaurant.address_latitude %>,
+      "lng": <%= @restaurant.address_longitude %>,
+      "infowindow": "<h5><%= @restaurant.created_at %></h5><small><%= @restaurant.address_formatted_address %></small>"
+    }
+  ]);
+  handler.bounds.extendWith(markers);
+  handler.fitMapToBounds();
+});
 </script>
