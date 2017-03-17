@@ -107,7 +107,7 @@
           <% if photo.point_of_interest.present? %>
           <img class="img-responsive" src="<%= photo.point_of_interest.image %>" length="380" width="380" />
           <% end %>
-
+          <%= photo.caption %>
           <p>
             <form action="/create_like" method="post">
               <!-- Hidden input for authenticity token to protect from forgery -->
@@ -191,9 +191,7 @@
 
       <% if photo.user == current_user %>
       <div>
-        <small class="text-muted col-md-3">
-          <%= photo.caption %>
-        </small>
+
         <span class="col-md-6">
           <% if photo.restaurant != nil %>
           <a href="/restaurants/<%= photo.restaurant.id %>" class="btn btn-primary">Show</a>
@@ -202,17 +200,32 @@
           <a href="/accommodations/<%= photo.accommodation.id %>" class="btn btn-primary">Show</a>
           <% end
           if photo.point_of_interest != nil  %>
-          <a href="/points_of_interest/<%= photo.point_of_interest.id %>" class="btn btn-primary">Show</a>
+          <a href="/points_of_interests/<%= photo.point_of_interest.id %>" class="btn btn-primary">Show</a>
           <% end %>
-          <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+
+          <% if photo.restaurant != nil %>
+          <a href="/restaurants/<%= photo.restaurant.id %>/edit" class="btn btn-warning">Edit</a>
+          <% end
+          if photo.accommodation != nil %>
+          <a href="/accommodations/<%= photo.accommodation.id %>/edit" class="btn btn-warning">Edit</a>
+          <% end
+          if photo.point_of_interest != nil  %>
+          <a href="/points_of_interests/<%= photo.point_of_interest.id %>/edit" class="btn btn-warning">Edit</a>
+          <% end %>
+
+          <% if photo.restaurant != nil %>
+          <a href="/delete_restaurant/<%= photo.restaurant.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <% end
+          if photo.accommodation != nil %>
+          <a href="/delete_accommodation/<%= photo.accommodation.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <% end
+          if photo.point_of_interest != nil  %>
+          <a href="/delete_points_of_interest/<%= photo.point_of_interest.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <% end %>
         </span>
       </div>
       <% else %>
       <div>
-        <small class="text-muted col-md-3">
-          <%= photo.caption %>
-        </small>
         <span class="col-md-6">
           <% if photo.restaurant != nil %>
           <a href="/restaurants/<%= photo.restaurant.id %>" class="btn btn-primary">Show</a>
@@ -272,6 +285,7 @@
           <% if photo.point_of_interest.present? %>
           <img class="img-responsive" src="<%= photo.point_of_interest.image %>" length="380" width="380" />
           <% end %>
+          <%= photo.caption %>
           <p>
             <form action="/create_like" method="post">
               <!-- Hidden input for authenticity token to protect from forgery -->
@@ -350,15 +364,12 @@
       <% end %>
       <% like_user = like_user.split(",")
       like_user = like_user.to_sentence %>
-      <%= like_user %> like this
+      <%= like_user %> favorited this
       <% end %>
 
       <% if photo.user == current_user %>
       <div>
 
-        <small class="text-muted col-md-3">
-          <%= photo.caption %>
-        </small>
         <span class="col-md-6">
           <% if photo.restaurant != nil %>
           <a href="/restaurants/<%= photo.restaurant.id %>" class="btn btn-primary">Show</a>
@@ -375,9 +386,7 @@
       </div>
       <% else %>
       <div>
-        <small class="text-muted col-md-3">
-          <%= photo.caption %>
-        </small>
+
         <span class="col-md-6">
           <% if photo.restaurant != nil %>
           <a href="/restaurants/<%= photo.restaurant.id %>" class="btn btn-primary">Show</a>
