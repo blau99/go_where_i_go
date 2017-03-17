@@ -84,7 +84,7 @@
 
       photo_arr = photo_arr.sort_by { |k| k.created_at }.reverse
       photo_arr.each do |photo| %>
-      <div class="panel panel-primary">
+      <div class="panel panel-info">
         <div class="panel-heading">
           <% if photo.restaurant.present? %>
           <%= photo.restaurant.name %>
@@ -94,7 +94,9 @@
           <%= photo.point_of_interest.name %>
           <% end %>
         </div>
-
+        <small class="text-muted col-md-3; img-responsive">
+          &nbsp;<%= link_to photo.user.username, "/users/#{photo.user.id}" %>    <%= time_ago_in_words(photo.created_at) %> ago
+        </small>
         <div class="panel-body">
           <% if photo.restaurant.present? %>
           <img class="img-responsive" src="<%= photo.restaurant.image %>" length="380" width="380" />
@@ -105,6 +107,7 @@
           <% if photo.point_of_interest.present? %>
           <img class="img-responsive" src="<%= photo.point_of_interest.image %>" length="380" width="380" />
           <% end %>
+
           <p>
             <form action="/create_like" method="post">
               <!-- Hidden input for authenticity token to protect from forgery -->
@@ -183,16 +186,13 @@
       <% end %>
       <% like_user = like_user.split(",")
       like_user = like_user.to_sentence %>
-      <%= like_user %> like this
+      <%= like_user %> favorited this
       <% end %>
 
       <% if photo.user == current_user %>
       <div>
         <small class="text-muted col-md-3">
           <%= photo.caption %>
-        </small>
-        <small class="text-muted col-md-3">
-          <%= photo.user.username %>    <%= time_ago_in_words(photo.created_at) %> ago
         </small>
         <span class="col-md-6">
           <% if photo.restaurant != nil %>
@@ -212,9 +212,6 @@
       <div>
         <small class="text-muted col-md-3">
           <%= photo.caption %>
-        </small>
-        <small class="text-muted col-md-3">
-          <%= photo.user.username %>    <%= time_ago_in_words(photo.created_at) %> ago
         </small>
         <span class="col-md-6">
           <% if photo.restaurant != nil %>
@@ -252,7 +249,7 @@
 
       photo_arr = photo_arr.sort_by { |k| k.created_at }.reverse
       photo_arr.each do |photo| %>
-      <div class="panel panel-primary">
+      <div class="panel panel-info">
         <div class="panel-heading">
           <% if photo.restaurant.present? %>
           <%= photo.restaurant.name %>
@@ -262,7 +259,9 @@
           <%= photo.point_of_interest.name %>
           <% end %>
         </div>
-
+        <small class="text-muted col-md-3; img-responsive">
+          &nbsp;<%= link_to photo.user.username, "/users/#{photo.user.id}" %>    <%= time_ago_in_words(photo.created_at) %> ago
+        </small>
         <div class="panel-body">
           <% if photo.restaurant.present? %>
           <img class="img-responsive" src="<%= photo.restaurant.image %>" length="380" width="380" />
@@ -356,11 +355,9 @@
 
       <% if photo.user == current_user %>
       <div>
+
         <small class="text-muted col-md-3">
           <%= photo.caption %>
-        </small>
-        <small class="text-muted col-md-3">
-          <%= photo.user.username %>    <%= time_ago_in_words(photo.created_at) %> ago
         </small>
         <span class="col-md-6">
           <% if photo.restaurant != nil %>
@@ -380,9 +377,6 @@
       <div>
         <small class="text-muted col-md-3">
           <%= photo.caption %>
-        </small>
-        <small class="text-muted col-md-3">
-          <%= photo.user.username %>    <%= time_ago_in_words(photo.created_at) %> ago
         </small>
         <span class="col-md-6">
           <% if photo.restaurant != nil %>
